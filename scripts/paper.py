@@ -35,7 +35,7 @@ dblue = '#0c1344'
 class Survey():
     def __init__(self, name, qrel=1, qrv=50, nonnegative=True, crtheta=90, observed=True, vdisk=220*u.km/u.s, sdisk=180*u.km/u.s, label=''):
         self.name = name
-        self._data = Table.read('/home/ana/projects/cr/data/{}_abb.fits'.format(self.name))
+        self._data = Table.read('/home/ana/projects/mrich_halo/data/{}_abb.fits'.format(self.name))
         self.vdisk = vdisk
         self.sdisk = sdisk
         if len(label)==0:
@@ -560,7 +560,7 @@ def toy_model(seed=205):
     print('halo completeness', np.sum(mock_halo & thalo)/np.sum(thalo))
     
     plt.close()
-    fig, ax = plt.subplots(1, 3, figsize=(12,4.1))
+    fig, ax = plt.subplots(1, 3, figsize=(12,4.3))
     
     plt.sca(ax[0])
     plt.plot(vh_y, vh_xz, 'k-', lw=3, zorder=10)
@@ -585,10 +585,12 @@ def toy_model(seed=205):
     plt.xlim(0,180)
     plt.ylim(9e-1, 3e5)
     plt.gca().set_yscale('log')
+    ax[1].set_xticks(np.arange(0,181,90))
 
     plt.legend(loc=2, frameon=False, fontsize='small')
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Number of stars')
+    plt.title('True membership', fontsize='medium')
     
     plt.sca(ax[2])
     plt.hist(theta[thalo & mock_halo], bins=bx, histtype='stepfilled', color=blue, alpha=0.8, lw=4, label='Isotropic toy halo', normed=True)
@@ -604,11 +606,13 @@ def toy_model(seed=205):
     
     plt.xlim(0,180)
     plt.gca().set_yscale('log')
+    ax[2].set_xticks(np.arange(0,181,90))
 
     plt.legend(loc=2, frameon=False, fontsize='small')
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Probability density (deg$^{-1}$)')
     plt.ylim(3e-4, 1.4e-1)
+    plt.title('Kinematic selection', fontsize='medium')
     
     plt.tight_layout()
     plt.savefig('../plots/paper/toy_model.pdf', bbox_inches='tight')
@@ -619,12 +623,16 @@ def latte(mwcomp=False):
     mpl.rcParams['axes.linewidth'] = 1.5
     s = load_survey('lattemdif')
     raveon = load_survey('raveon')
+    fehacc = -1
+    accreted = s.data['feh']<=fehacc
     
     plt.close()
-    fig, ax = plt.subplots(1, 3, figsize=(12,4.1))
+    fig, ax = plt.subplots(1, 3, figsize=(12,4.3))
     
     plt.sca(ax[0])
     im = plt.scatter(s.vy, s.vxz, c=s.data['feh'], s=10, cmap='magma', vmin=-2.5, vmax=0.5, edgecolors='none', rasterized=True)
+    #plt.plot(s.vy[~accreted], s.vxz[~accreted], 'o', color=lblue, ms=1, rasterized=True)
+    #plt.plot(s.vy[accreted], s.vxz[accreted], 'o', color=dblue, ms=1, rasterized=True)
     
     vh_y = np.linspace(0,400,400)*u.km/u.s
     vh_xz = np.sqrt(s.sdisk**2 - (vh_y - s.vdisk)**2)
@@ -652,22 +660,21 @@ def latte(mwcomp=False):
     plt.xlabel('[Fe/H]')
     plt.ylabel('Probability density (dex$^{-1}$)')
     plt.legend(frameon=False, loc=2, fontsize='small')
+    plt.title('Kinematic selection', fontsize='medium')
+    ax[1].set_xticks(np.arange(-2,0.5,1))
     
     plt.sca(ax[2])
     bx = np.linspace(0,180,10)
     flag_norm = True
-    fehacc = -1
-    
-    accreted = s.data['feh']<=fehacc
     
     # disk
     plt.hist(s.ltheta[s.disk], color=red, histtype='stepfilled', alpha=0.8, bins=bx, zorder=0, lw=2, normed=flag_norm, label='Disk')
     
     # halo
     plt.hist(s.ltheta[s.halo & ~accreted], color=lblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
-            label='Halo: $[Fe/H]>-1$')
+            label='Metal-rich halo')
     plt.hist(s.ltheta[s.halo & accreted], color=dblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
-            label='Halo: $[Fe/H]\leq-1$')
+            label='Metal-poor halo')
     
     # overplot MW
     if mwcomp:
@@ -680,10 +687,12 @@ def latte(mwcomp=False):
     plt.xlim(0, 180)
     plt.ylim(1e-3, 0.1)
     ax[2].set_yscale('log')
+    ax[2].set_xticks(np.arange(0,181,90))
     
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Probability density (deg$^{-1}$)')
     plt.legend(loc=2, frameon=False, fontsize='small')
+    plt.title('Kinematic selection', fontsize='medium')
     
     
     plt.tight_layout()
@@ -692,6 +701,8 @@ def latte(mwcomp=False):
     else:
         plt.savefig('../plots/paper/latte.pdf', bbox_inches='tight')
     mpl.rcParams['axes.linewidth'] = 2
+
+
 
 def latte_dform():
     """Formation properties of Latte star particles"""
@@ -735,22 +746,25 @@ def latte_dform2():
     plt.figure(figsize=(6,5))
 
     dacc = 20
-    accreted = latte.data['dform']>dacc
+    accreted = latte.data['feh']<=-1
+    lw = 0.3
+    ms = 5
 
-    plt.scatter(latte.data['age'][latte.disk], latte.data['dform'][latte.disk], c=red, s=100 * (latte.data['feh'][latte.disk]+5)**-1, edgecolors='w', linewidths=0.2, rasterized=True, label='Disk')
-    plt.scatter(latte.data['age'][latte.halo], latte.data['dform'][latte.halo], c=blue, s=100 * (latte.data['feh'][latte.halo]+5)**-1, edgecolors='w', linewidths=0.2, rasterized=True, label='Halo')
+    plt.plot(latte.data['age'][latte.disk], latte.data['dform'][latte.disk], 'o', ms=ms, c=red, mec='w', mew=lw, rasterized=True, label='Disk')
+    plt.plot(latte.data['age'][latte.halo & accreted], latte.data['dform'][latte.halo & accreted], 'o', ms=ms, c=dblue, mec='w', mew=lw, rasterized=True, label='Metal-poor halo')
+    plt.plot(latte.data['age'][latte.halo & ~accreted], latte.data['dform'][latte.halo & ~accreted], 'o', ms=ms, c=lblue, mec='w', mew=lw, rasterized=True, label='Metal-rich halo')
 
     plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
     plt.axhspan(5, 11, color='0.5', alpha=0.2, zorder=2)
-    plt.text(0.7,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
-    plt.text(0.7,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
+    plt.text(0.75,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
+    plt.text(0.75,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
     
     plt.ylim(1e-1,500)
     plt.xlim(13.8,0)
     plt.gca().set_yscale('log')
     plt.xlabel('Age (Gyr)')
     plt.ylabel('Formation distance (kpc)')
-    plt.legend(loc=4, fontsize='medium', frameon=False, handlelength=0.2)
+    plt.legend(loc=4, fontsize='small', frameon=False, handlelength=0.2)
 
     plt.tight_layout()
     plt.savefig('../plots/paper/latte_dform2.pdf', bbox_inches='tight')
@@ -850,6 +864,29 @@ def latte_med_dform():
     
     plt.savefig('../plots/paper/latte_med_dform.pdf', bbox_inches='tight')
     
+def latte_ltheta_origin():
+    """"""
+    latte = load_survey('lattemdif')
+    accreted = latte.data['dform']>20
+    mrich = latte.data['feh']>-1
+    bx = np.linspace(0,180,10)
+    
+    plt.close()
+    fig, ax = plt.subplots(1,2,figsize=(10,5))
+    
+    plt.sca(ax[0])
+    plt.hist(latte.ltheta[latte.halo & accreted], bins=bx, color=dblue, alpha=0.5, normed=True)
+    plt.hist(latte.ltheta[latte.halo & ~accreted], bins=bx, color=lblue, alpha=0.5, normed=True)
+    ax[0].set_yscale('log')
+    
+    plt.sca(ax[1])
+    plt.hist(latte.ltheta[latte.halo & ~mrich], bins=bx, color=dblue, alpha=0.5, normed=True)
+    plt.hist(latte.ltheta[latte.halo & mrich], bins=bx, color=lblue, alpha=0.5, normed=True)
+    ax[1].set_yscale('log')
+    
+    plt.tight_layout()
+
+
 
 def tdcontamination(chicalc=False):
     """"""
@@ -958,7 +995,7 @@ def tdcontamination(chicalc=False):
     plt.xlabel('Probability')
     plt.ylabel('Cumulative fraction')
     plt.title('Thick disk misclassification', fontsize='medium')
-    plt.legend(frameon=False, loc=1, fontsize='small')
+    plt.legend(frameon=True, loc=1, fontsize='small', framealpha=1)
 
     plt.tight_layout()
     plt.savefig('../plots/paper/tdcontamination.pdf', bbox_inches='tight')
