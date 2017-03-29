@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+import matplotlib.patheffects as pe
 
 import astropy
 from astropy.table import Table
@@ -101,7 +102,7 @@ def load_survey(survey):
     elif survey=='apogee':
         s = Survey('apogee', label='APOGEE', sdisk=220*u.km/u.s, qrel=1, qrv=20)
     elif survey=='lattemdif':
-        s = Survey('lattemdif', label='Latte', observed=False, vdisk=250*u.km/u.s, sdisk=210*u.km/u.s)
+        s = Survey('lattemdif', label='Latte', observed=False, vdisk=250*u.km/u.s, sdisk=220*u.km/u.s)
         
     return s
 
@@ -121,7 +122,7 @@ def toomre(survey='raveon'):
     yg = yg.transpose()
     
     plt.close()
-    fig, ax = plt.subplots(1,2,figsize=(12,3.7))
+    fig, ax = plt.subplots(1,2,figsize=(12,3.5))
 
     # number density
     plt.sca(ax[0])
@@ -205,6 +206,7 @@ def mdf():
         
         plt.hist(s.data['feh'][finite & s.disk], bins=bx, histtype='stepfilled', color=red, normed=True, lw=0, alpha=0.8, label='Disk')
         plt.hist(s.data['feh'][finite & s.halo], bins=bx, histtype='stepfilled', color=blue, normed=True, lw=0, alpha=0.8, label='Halo')
+        print(s.label, np.median(s.data['feh'][finite & s.halo]), np.sum(s.data['feh'][finite & s.halo]>-1)/np.sum(finite & s.halo))
         
         plt.axvline(-1, ls='--', lw=2, color='0.2')
         plt.xlabel('[Fe/H]')
@@ -263,7 +265,7 @@ def ltheta():
     raveon = load_survey('raveon')
     
     plt.close()
-    fig, ax = plt.subplots(1,1,figsize=(5,5))
+    fig, ax = plt.subplots(1,1,figsize=(5.5,5))
     bx = np.linspace(0,180,10)
     flag_norm = True
     fehacc = -1
@@ -271,39 +273,28 @@ def ltheta():
     finite = np.isfinite(raveon.data['feh'])
     accreted = raveon.data['feh']<=fehacc
     
-    #N = 20
-    #lw = 1
-    #fancy_histogram(raveon.ltheta[raveon.disk & finite], bx, color=red, label='Disk', dx=(0.15,0.995), log=(False,True), normed=flag_norm, zorder=4, N=N, lw=lw)
-    #fancy_histogram(raveon.ltheta[raveon.halo & finite & ~accreted], bx, color=lblue, label='Halo: $[Fe/H]>-1$', dx=(0.15,0.995), log=(False,True), normed=flag_norm, zorder=2, N=N, lw=lw)
-    #fancy_histogram(raveon.ltheta[raveon.halo & finite & accreted], bx, color=dblue, label='Halo: $[Fe/H]\leq-1$', dx=(0.15,0.995), log=(False,True), normed=flag_norm, zorder=0, N=N, lw=lw)
-    
     plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, color=red, label='Disk', normed=flag_norm, lw=0, histtype='stepfilled', alpha=0.7)
     plt.hist(raveon.ltheta[raveon.halo & finite & ~accreted], bins=bx, color=lblue, label='Halo: $[Fe/H]>-1$', normed=flag_norm, lw=0, histtype='stepfilled', alpha=0.7)
     plt.hist(raveon.ltheta[raveon.halo & finite & accreted], bins=bx, color=dblue, label='Halo: $[Fe/H]\leq-1$', normed=flag_norm, lw=0, histtype='stepfilled', alpha=0.7)
-
-    #awhite = 0.7
     
-    #plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, color=red, label='Disk', normed=flag_norm, lw=4, histtype='step')
-    #plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, color='w', alpha=awhite, label='', normed=flag_norm, lw=1., histtype='step')
-    ##plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, color=red, alpha=0.3, label='', normed=flag_norm, lw=1., histtype='step')
-    
-    #plt.hist(raveon.ltheta[raveon.halo & finite & ~accreted], bins=bx, color=lblue, label='Halo: $[Fe/H]>-1$', normed=flag_norm, lw=4, histtype='step')
-    #plt.hist(raveon.ltheta[raveon.halo & finite & ~accreted], bins=bx, color='w', alpha=awhite, label='', normed=flag_norm, lw=1., histtype='step')
-    ##plt.hist(raveon.ltheta[raveon.halo & finite & ~accreted], bins=bx, color=lblue, alpha=0.3, label='', normed=flag_norm, lw=1., histtype='step')
-    
-    #plt.hist(raveon.ltheta[raveon.halo & finite & accreted], bins=bx, color=dblue, label='Halo: $[Fe/H]\leq-1$', normed=flag_norm, lw=4, histtype='step')
-    #plt.hist(raveon.ltheta[raveon.halo & finite & accreted], bins=bx, color='w', alpha=awhite, label='', normed=flag_norm, lw=1., histtype='step')
-    ##plt.hist(raveon.ltheta[raveon.halo & finite & accreted], bins=bx, color=dblue, alpha=0.3, label='', normed=flag_norm, lw=1., histtype='step')
-    
+    plt.axvline(90, ls='--', color='0.2', lw=2)
+    ax.set_xticks(np.arange(0,181,45))
     
     plt.xlim(0, 180)
     plt.ylim(1e-3, 0.1)
     ax.set_yscale('log')
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Probability density (deg$^{-1}$)')
-    leg = plt.legend(loc=2, frameon=False, fontsize='small')
+
+    #leg = plt.legend(loc=2, frameon=False, fontsize='small')
+    leg = plt.legend(loc=2, frameon=True, fontsize='small', framealpha=0.95, edgecolor='w')
     for legobj in leg.legendHandles:
         legobj.set_linewidth(3.0)
+    #leg.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+    
+    label_pad = 0.04
+    plt.text(label_pad, 1.04, 'Retrograde', fontsize='small', transform=ax.transAxes, ha='left', va='center')
+    plt.text(1-label_pad, 1.04, 'Prograde', fontsize='small', transform=ax.transAxes, ha='right', va='center')
     
     ax.set_axisbelow(False)
 
@@ -627,7 +618,7 @@ def latte(mwcomp=False):
     accreted = s.data['feh']<=fehacc
     
     plt.close()
-    fig, ax = plt.subplots(1, 3, figsize=(12,4.3))
+    fig, ax = plt.subplots(3, 1, figsize=(5.5,13), gridspec_kw = {'height_ratios':[1,1.5,1.5]})
     
     plt.sca(ax[0])
     im = plt.scatter(s.vy, s.vxz, c=s.data['feh'], s=10, cmap='magma', vmin=-2.5, vmax=0.5, edgecolors='none', rasterized=True)
@@ -637,11 +628,29 @@ def latte(mwcomp=False):
     vh_y = np.linspace(0,400,400)*u.km/u.s
     vh_xz = np.sqrt(s.sdisk**2 - (vh_y - s.vdisk)**2)
     plt.plot(vh_y, vh_xz, 'k-', lw=2)
+    print(np.mean(s.vy), np.mean(raveon.vy))
+    
+    t = plt.text(0.98, 0.1, 'Disk', transform=ax[0].transAxes, ha='right', fontsize='medium')
+    t.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+    t = plt.text(0.98, 0.6, 'Halo', transform=ax[0].transAxes, ha='right', fontsize='medium')
+    t.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
     
     plt.xlim(-400,400)
     plt.ylim(0,400)
     plt.xlabel('$V_Y$ (km/s)')
     plt.ylabel('$V_{XZ}$ (km/s)')
+    title = plt.title('Latte simulation')
+    title.set_position([.5, 1.4])
+    
+    divider = make_axes_locatable(ax[0])
+    cax = divider.append_axes("top", size="4%", pad=0.05)
+    plt.colorbar(im, cax=cax, ticks=np.arange(-2.5,0.51,0.5), orientation='horizontal')
+    
+    cax.xaxis.tick_top()
+    cax.tick_params(labelsize='small')
+    cax.tick_params(axis=u'both', which=u'both',length=0)
+    plt.xlabel('[Fe/H]', fontsize='small')
+    cax.xaxis.set_label_position('top') 
     
     plt.sca(ax[1])
     bx = np.arange(-2.5,0.5,0.2)
@@ -650,18 +659,29 @@ def latte(mwcomp=False):
     finite = np.isfinite(raveon.data['feh'])
     plt.hist(s.data['feh'][s.disk], bins=bx, histtype='stepfilled', color=red, normed=True, lw=0, alpha=0.8, label='Disk')
     if mwcomp:
+        plt.hist(raveon.data['feh'][raveon.disk & finite], bins=bx, histtype='step', color='0.9', normed=True, lw=4, alpha=1, label='')
         plt.hist(raveon.data['feh'][raveon.disk & finite], bins=bx, histtype='step', color=red, normed=True, lw=2, alpha=1, label='')
 
     plt.hist(s.data['feh'][s.halo], bins=bx, histtype='stepfilled', color=blue, normed=True, lw=0, alpha=0.8, label='Halo')
     if mwcomp:
+        plt.hist(raveon.data['feh'][raveon.halo & finite], bins=bx, histtype='step', color='0.9', normed=True, lw=4, alpha=1, label='')
         plt.hist(raveon.data['feh'][raveon.halo & finite], bins=bx, histtype='step', color=blue, normed=True, lw=2, alpha=1, label='')
+        plt.plot([-1,0], [-10,-11], color='0.2', lw=2, alpha=1, label='Milky Way', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
+        
     
     plt.axvline(-1, ls='--', lw=2, color='0.2')
     plt.xlabel('[Fe/H]')
     plt.ylabel('Probability density (dex$^{-1}$)')
-    plt.legend(frameon=False, loc=2, fontsize='small')
     plt.title('Kinematic selection', fontsize='medium')
-    ax[1].set_xticks(np.arange(-2,0.5,1))
+    #ax[1].set_xticks(np.arange(-2,0.5,1))
+    #plt.xlim(-2,0.5)
+    ax[1].set_ylim(bottom=0)
+
+    leg = plt.legend(frameon=False, loc=2, fontsize='small')
+    #h_, l_ = ax[1].get_legend_handles_labels()
+    #hcorr = [h_[1], h_[2], h_[0]]
+    #lcorr = [l_[1], l_[2], l_[0]]
+    #ax[1].legend(hcorr, lcorr, frameon=False, loc=2, fontsize='small')
     
     plt.sca(ax[2])
     bx = np.linspace(0,180,10)
@@ -680,19 +700,33 @@ def latte(mwcomp=False):
     if mwcomp:
         finite = np.isfinite(raveon.data['feh'])
         mrich = raveon.data['feh']>-1
+        plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
         plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='royalblue', lw=2, label='', normed=True)
+
+        plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
         plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, histtype='step', color='navy', lw=2, label='', normed=True)
+
+        plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
         plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color=red, lw=2, label='', normed=True)
+        plt.plot([10,20], [-10,-11], color='0.2', lw=2, alpha=1, label='Milky Way', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
     
     plt.xlim(0, 180)
     plt.ylim(1e-3, 0.1)
     ax[2].set_yscale('log')
-    ax[2].set_xticks(np.arange(0,181,90))
+    ax[2].set_xticks(np.arange(0,181,45))
     
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Probability density (deg$^{-1}$)')
-    plt.legend(loc=2, frameon=False, fontsize='small')
     plt.title('Kinematic selection', fontsize='medium')
+
+    plt.legend(loc=2, frameon=False, fontsize='small')
+    
+    for i in [1,2]:
+        h_, l_ = ax[i].get_legend_handles_labels()
+        hcorr = h_[1:] + [h_[0]]
+        lcorr = l_[1:] + [l_[0]]
+        ax[i].legend(hcorr, lcorr, frameon=False, loc=2, fontsize='small')
+
     
     
     plt.tight_layout()
@@ -781,7 +815,7 @@ def latte_facc():
     s = load_survey('lattemdif')
     
     plt.close()
-    fig, ax = plt.subplots(1,1,figsize=(5,5))
+    fig, ax = plt.subplots(1,1,figsize=(5.5,5))
     by = np.linspace(-3,0.5,10)
     bx = np.linspace(0,180,10)
 
@@ -805,9 +839,17 @@ def latte_facc():
 
     
     ratio = (xe[-1] - xe[0]) / (ye[-1] - ye[0])
-    im = plt.imshow(facc_smooth.T, origin='lower', vmin=0, vmax=1, extent=(xe[0], xe[-1], ye[0], ye[-1]), aspect=ratio, interpolation='gaussian', cmap='viridis')
+    im = plt.imshow(facc_smooth.T, origin='lower', vmin=0, vmax=1, extent=(xe[0], xe[-1], ye[0], ye[-1]), aspect='auto', interpolation='gaussian', cmap='viridis')
     #im = plt.imshow(grid_z, origin='lower', vmin=0, vmax=1, extent=(xe[0], xe[-1], ye[0], ye[-1]), aspect=ratio, interpolation='none', cmap='bone')
+    
+    cs = plt.contour(facc_smooth.T, extent=(xe[0], xe[-1], ye[0], ye[-1]), levels=(0.1,0.5,0.9), colors='0.9')
+    
+    fmt = {}
+    for i, l in enumerate(cs.levels):
+        fmt[l] = '{:.0f}% accreted'.format(l*100)
+    labels = plt.clabel(cs, inline=True, fontsize='small', fmt=fmt, colors='w')
 
+    ax.set_xticks(np.arange(0,181,45))
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('[Fe/H]')
 
@@ -1088,8 +1130,8 @@ def latte_ages():
     
     plt.close()
     fig, ax = plt.subplots(1,1,figsize=(6,5))
-    Nb = 13
-    bx = np.linspace(0, 13, Nb)
+    Nb = 14
+    bx = np.linspace(0, 14, Nb)
     bc = myutils.bincen(bx)
 
     dacc = 20
@@ -1115,3 +1157,25 @@ def latte_ages():
 
     plt.tight_layout(h_pad=0, w_pad=0)
     plt.savefig('../plots/paper/latte_ages.pdf', bbox_inches='tight')
+
+
+def vy_mode():
+    """"""
+    
+    latte = load_survey('lattemdif')
+    raveon = load_survey('raveon')
+    
+    print(np.sum(raveon.vy>220*u.km/u.s)/np.size(raveon.vy))
+    print(np.sum(latte.vy>248*u.km/u.s)/np.size(latte.vy))
+    
+    bx = np.linspace(150,300,100)
+    
+    plt.close()
+    plt.figure()
+    
+    plt.hist(latte.vy, bins=bx, normed=True, label='Latte', histtype='step')
+    plt.hist(raveon.vy, bins=bx, normed=True, label='Milky Way', histtype='step')
+    
+    plt.legend()
+    
+    
