@@ -17,7 +17,8 @@
 \begin{document}
 % \title{A Local In-Situ Stellar Halo Revealed by Gaia}
 % \title{In-Situ Stellar Halo in the Solar Neighborhood Revealed by Gaia}
-\title{Gaia Reveals an In-Situ Component of the Stellar Halo in the Solar Neighborhood}
+% \title{Gaia Reveals an In-Situ Component of the Stellar Halo in the Solar Neighborhood}
+\title{Gaia reveals a metal-rich component of the local stellar halo that predominantly formed in-situ}
 % \journalinfo{The Astrophysical Journal, submitted}
 \author{Ana Bonaca\altaffilmark{1,5}}
 \author{Charlie Conroy\altaffilmark{1}}
@@ -39,6 +40,7 @@
 %Similar properties are observed for stars in the Latte simulation of a Milky Way-like galaxy. In Latte, all of the metal-rich halo stars were formed inside of the solar circle, while the lower metallicity halo has a progressively larger fraction of stars with a more distant origin, out to the virial radius.
 %This suggests that we have identified a true in situ halo component in the metal-rich halo stars.
 %Furthermore, their presence in the Solar neighborhood indicates that radial migration has occurred in the Galactic disk.
+
 % andrew's + phil's modifications
 We use the first Gaia data release, combined with the ground-based spectroscopic surveys, to search for the origin of halo stars in the Solar neighborhood.
 We identify halo stars kinematically, as moving at least 220\;km/s with respect to the local standard of rest.
@@ -464,7 +466,10 @@ These are prime candidates for runaway stars, but they constitute only 0.5\% of 
 
 \subsubsection{Radial migration}
 \label{sec:migration}
-Idealized simulations of disk formation have shown that radial migration can occur in the disk plane, and that stars migrating outwards reach larger heights above the disk plane \citep[e.g.,][]{loebman2011}.
+In the classical picture of radial migration, spiral structures in the disk radially scatter nearby stars up to several kpc \citep{sellwood2002}.
+Stars that have migrated outwards are typically more metal-rich than their neighbors, so radial migration explains why some stars in the Solar neighborhood (including the Sun!) are more metal-rich than both the surrounding stellar population and the local interstellar medium \citep{wielen1996}.
+Idealized simulations of disk formation have found radial migration to be a key component in explaining numerous observables, such as the spread in the age--metallicity relation \citep{roskar2008} or the disk morphology and its abundance patterns \citep{schonrich2009}.
+Such studies have also shown that stars migrating outwards reach larger heights above the disk plane \citep[e.g.,][]{schonrich2009, loebman2011}.
 This scenario can explain, at least in part, formation of the thick disk \citep[e.g.,][]{wilson2011}, so it is also conceivable that the metal-rich stars we identified on the halo-like orbits are an endpoint of this process.
 
 - evidence for: schonrich (models with radial migration reproduce observations), solway, kordopatis
@@ -496,6 +501,23 @@ In the next section, we demonstrate how the Latte model is predictive, and propo
 % - loebman 2011: thick disk can form by radial migration; migrators increase their height above the plane
 
 % - check radial migration in high-res; zoltan haiman -- more effective if particles are massive
+
+
+However, subsequent numerical works have found that outward migrators do not attain larger scale heights from the disk plane \citep{minchev2012, vera-ciro2014}, thus casting doubts on the idea of forming the thick disk and a metal-rich halo through radial migration.
+
+However, these simulations have been initialized to match the orderly morphology of stellar disks observed at the present day, and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
+In particular, the metal-rich halo in Latte was formed while the host galaxy was still actively accreting.
+The merging subhalos brought in a lot of gas to the galactic center (evident as star-forming tracks in Figure~\ref{fig:dform}), which fueled additional in situ star formation.
+\citet{elbadry2016} showed that these conditions create two mechanisms for radially displacing stars.
+First, some stars are formed in the large gas flows, so their orbits can be rather eccentric and have large apocenters.
+Second, the combination of inflowing gas from mergers and outflows from star formation feedback produce strong fluctuations in the underlying gravitational potential.
+Such fluctuations have already been shown to change the distribution of dark matter particles \citep[e.g.,][]{pontzen2012, brooks2014, dicintio2014}, but \citet{elbadry2016} showed that stellar orbits are affected as well, ultimately becoming heated to a nearly isotropic distribution.
+This mechanism is most efficient in relatively shallow potential wells of dwarf galaxies.
+At the present day, Latte host galaxy is too massive to exhibit such behavior, but its progenitor was much less massive while the metal-rich halo was being formed, so it is likely that similar processes drove their radial migration to the Solar circle.
+
+Radial migration, driven by large-scale motions in the Milky Way progenitor, could explain the origin of metal-rich stars on halo-like orbits in the Solar neighborhood.
+If these stars truly originate from the inner Galaxy, then they not only illustrate an important dynamical mechanism shaping the Galaxy, but are also a unique window into star formation in the early Milky Way.
+In the next section, we propose to test this origin scenario using stellar ages.
 
 
 \begin{figure}
