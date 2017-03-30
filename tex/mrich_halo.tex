@@ -20,17 +20,18 @@
 % \title{Gaia Reveals an In-Situ Component of the Stellar Halo in the Solar Neighborhood}
 \title{Gaia reveals a metal-rich component of the local stellar halo that predominantly formed in-situ}
 % \journalinfo{The Astrophysical Journal, submitted}
-\author{Ana Bonaca\altaffilmark{1,5}}
+\author{Ana Bonaca\altaffilmark{1}$^\dagger$}\thanks{$^\dagger$ ITC Fellow}
 \author{Charlie Conroy\altaffilmark{1}}
-\author{Andrew Wetzel\altaffilmark{2,3,4}\altaffiliation{Caltech-Carnegie Fellow}}
+% \author{Andrew Wetzel\altaffilmark{2,3,4}\altaffiliation{Caltech-Carnegie Fellow}}
 % if that does not work, try \author{Andrew Wetzel\altaffilmark{2,3,4}$\dagger$}\thanks{$\dagger$ Caltech-Carnegie Fellow}
+\author{Andrew Wetzel\altaffilmark{2,3,4}$^\ddagger$}\thanks{$^\ddagger$ Caltech-Carnegie Fellow}
+\author{Philip Hopkins\altaffilmark{2}}
 \author{your name here}
 
 \altaffiltext{1}{Department of Astronomy, Harvard University, Cambridge, MA 02138; {ana.bonaca@cfa.harvard.edu}}
 \altaffiltext{2}{TAPIR, California Institute of Technology, Pasadena, CA, USA}
 \altaffiltext{3}{Carnegie Observatories, Pasadena, CA, USA}
 \altaffiltext{4}{Department of Physics, University of California, Davis, CA, USA}
-\altaffiltext{5}{ITC Fellow}
 
 \begin{abstract}
 % original
@@ -298,10 +299,10 @@ For a comparison, \citet{ns2010} defined a halo that is $\sim90\%$ complete, but
 \includegraphics[width=0.9\columnwidth]{../plots/paper/latte_mwcomp.pdf}
 \caption{Stars from the Latte cosmological zoom-in baryonic simulation of a Milky Way-mass galaxy, from the FIRE project, observed identically to stars in the Solar neighborhood.
 Top panel shows positions of stars in the Toomre diagram, color-coded by metallicity.
+We identify disk and halo stars in Latte using a cut in this diagram (black line), analogous to a cut used for the Milky Way sample.
 Metallicity distributions of Latte stars are in the middle, with disk being shaded red, and halo blue.
 Bottom panel shows the orientations of stars' angular momenta in Latte, with disk in red, metal-poor halo in dark blue, and metal-rich halo in light blue.
-Properties of Latte stars are remarkably similar to the distributions of stars in our Milky Way sample (reproduced as empty histograms on the middle and right panel for direct comparison).
-% might add to this caption a sentence saying explicitly that the "disk-halo" identification/naming is using the identical cut in the Toomre diagram [this is implied but not stated explicitly: it's important because in some non-cosmological simulations, people put in a halo/disk "by hand" and so explicitly tag which particles are which -- that's not whats being done here so saying it clearly is important]
+Properties of Latte stars are remarkably similar to the distributions of stars in our Milky Way sample (reproduced as empty histograms on the middle and bottom panel for direct comparison).
 }
 \label{fig:latte}
 \end{center}
@@ -334,12 +335,12 @@ In $\Lambda$CDM cosmology, stellar halos are naturally produced by disruption of
 The resolution of the current generation of hydrodynamical simulations now allows for an almost direct comparison between individual stars observed in the Milky Way and simulated star particles.
 In this section, we examine a cosmological zoom-in baryonic simulation of a Milky Way-like galaxy -- the Latte simulation -- from \citet{wetzel2016}, with the goal of understanding the origin of halo stars in the Solar neighborhood.
 
-The Latte simulation, first presented in \citet{wetzel2016}, is a simulation from the Feedback In Realistic Environments (FIRE)\footnote{The FIRE project website is \url{http://fire.northwestern.edu}} project \citep{hopkins2014FIRE}. Latte is fully cosmological, with the highest mass ($7000 \,M_{\sun}$) and spatial (1\,pc) resolution yet achieved for a cosmological simulation of a Milky Way-mass galaxy to $z = 0$. The simulation uses the standard FIRE-2 implementation of gas cooling, star formation, and stellar feedback as described in \citet{hopkins2017}, including the numerical terms for turbulent diffusion of metals as described therein, and the GIZMO code \citep{hopkins2015}. FIRE simulations have been used to study galaxies from ultra-faint dwarf galaxies \citep{wheeler2015} to small groups of galaxies \citep{feldmann2016}}; previous studies have shown that FIRE simulations successfully reproduce observed internal properties of dwarf galaxies \citep{chan:fire.dwarf.cusps, elbadry2016}, thin/thick disk structure and both radial and vertical disk metallicity gradients in a Milky Way-like galaxy \citep{ma2016}, star-formation histories of dwarf and massive galaxies \citep{hopkins2014, sparre:sfmainsequence}, global galaxy scaling relations \citep{hopkins2014, ma:mass.metallicity, feldmann2016}, and satellite populations around Milky Way-mass galaxies \citep{wetzel2016}.
+The Latte simulation, first presented in \citet{wetzel2016}, is a simulation from the Feedback In Realistic Environments (FIRE)\footnote{The FIRE project website is \url{http://fire.northwestern.edu}} project \citep{hopkins2014FIRE}. Latte is fully cosmological, with the highest mass ($7000 \,M_{\sun}$) and spatial (1\,pc) resolution yet achieved for a cosmological simulation of a Milky Way-mass galaxy to $z = 0$. The simulation uses the standard FIRE-2 implementation of gas cooling, star formation, and stellar feedback as described in \citet{hopkins2017}, including the numerical terms for turbulent diffusion of metals as described therein, and the GIZMO code \citep{hopkins2015}. FIRE simulations have been used to study galaxies from ultra-faint dwarf galaxies \citep{wheeler2015} to small groups of galaxies \citep{feldmann2016}; previous studies have shown that FIRE simulations successfully reproduce observed internal properties of dwarf galaxies \citep{chan:fire.dwarf.cusps, elbadry2016}, thin/thick disk structure and both radial and vertical disk metallicity gradients in a Milky Way-like galaxy \citep{ma2016}, star-formation histories of dwarf and massive galaxies \citep{hopkins2014, sparre:sfmainsequence}, global galaxy scaling relations \citep{hopkins2014, ma:mass.metallicity, feldmann2016}, and satellite populations around Milky Way-mass galaxies \citep{wetzel2016}.
 
 To construct a sample of star particles in Latte analogous to the TGAS--RAVE-on sample, we first aligned the simulation coordinate system with the disk, and then selected stars in a 3\;kpc sphere located at a distance of 8.3\;kpc from the center of the galaxy.
 We classified star particles as either disk or halo using a kinematic cut in the Toomre diagram similar to the one employed for stars in the Milky Way (\S\ref{sec:sample}).
 Because the circular velocity in Latte is slightly different from the Galactic value, the definition of the local standard of rest is also different, but we keep the same conservative measure for the dispersion of 220\;km/s in the disk of Latte.
-The Toomre diagram for the sample in Latte is shown in the left panel of Figure~\ref{fig:latte}.
+The Toomre diagram for the sample in Latte is shown in the top panel of Figure~\ref{fig:latte}.
 Qualitatively, it is similar to that of the Milky Way (Figure~\ref{fig:toomre}), with most of the stars rotating in the disk at $\sim235$\;km/s, and the density of stars smoothly decreasing away from the local standard of rest.
 Quantitatively, the halo fraction in Latte is an order of magnitude higher at 10\%, and, compared to the Milky Way's, its kinematic space is more structured.
 This is partly because the Latte sample does not suffer from selection effects, so it effectively extends to larger distances, where we expect the halo to constitute a larger mass fraction.
@@ -348,21 +349,22 @@ Additionally, at least some of the structure present in the Milky Way sample is 
 
 Stars in the Toomre diagram of Figure~\ref{fig:latte} are color-coded by metallicity and show trends similar to those observed in the Milky Way.
 For a more quantitative analysis, we show metallicity distribution of Latte's disk and halo components in the central panel of Figure~\ref{fig:latte}.
+To facilitate comparison, we also include metallicity distributions of the Milky Way components as empty histograms.
 The Latte halo is more metal poor than its disk, and although there is no bimodality in the halo metallicity, the whole distribution is as wide as observed in the Milky Way, extending from [Fe/H]$\lesssim-2$ to [Fe/H]$\simeq0$.
 This agreement, in addition to $\rm[\alpha/Fe]$ abundance trends recovered in simulated disks (Wetzel et al., in prep), demonstrate that the physics included in the FIRE simulations captures the most important ingredients for chemical evolution in galaxies.
 Same as in the Milky Way sample, we proceed to divide the Latte halo into a metal-rich, [Fe/H]$>-1$, and a metal-poor, [Fe/H]$\leq-1$, component.
 The ratio of metal-rich to metal-poor halo stars in Latte is not quite the same as in the Milky Way, but this does not seriously impede our goal of qualitatively understanding differences between the two populations.
 
-Finally, we analyze orbital properties of stars in Latte by showing the orientation of their angular momenta with respect to the $Z$ axis, $\theta_L$, in the right panel of Figure~\ref{fig:latte}.
-The angular momenta of Latte disk stars are well aligned with the $Z$ axis, with $\theta_L\simeq180^\circ$, similar to disk stars in the Milky Way.
-The Latte halo shows a flatter distribution of $\theta_L$, but there is still an excess of metal-rich particles on prograde orbits (light blue histogram) with respect to the metal-poor halo particles (dark blue).
+Finally, we analyze orbital properties of stars in Latte by showing the orientation of their angular momenta with respect to the $Z$ axis, $\theta_L$, as solid histograms in the bottom panel of Figure~\ref{fig:latte}.
+The angular momenta of Latte disk stars are well aligned with the $Z$ axis, with $\theta_L\simeq180^\circ$, similar to disk stars in the Milky Way (shown in Figure~\ref{fig:latte} as an empty histogram).
+The Latte halo shows a flatter distribution of $\theta_L$, but there is still an excess of metal-rich particles on prograde orbits (histogram shaded light blue) with respect to the metal-poor halo particles (dark blue).
 Overall, Latte stars have similar kinematic, chemical and orbital properties to stars observed in the Milky Way, suggesting that it provides a reasonable analogue.
 %, indicating that the galaxy created in this Latte halo could also share the formation history with the Milky Way.
 We next trace Latte stars back to their birth location and suggest a possible scenario for the formation of halo stars in the Solar neighborhood.
 
 \subsection{Formation scenario}
 We define the formation distance of a star particle in Latte as its distance from the center of the primary (Milky Way-like) galaxy at time that it formed, and we inspect this formation distance as a function of the star's current ($z = 0$) age in Figure~\ref{fig:dform}.
-Stars with disk kinematics (as defined by our Toomre-diagram cut in Figure~6) are shown in red, while those identified as halo are blue.
+Stars with disk kinematics (as defined by our Toomre-diagram cut in Figure~\ref{fig:latte}) are shown in red, while those identified as halo are blue.
 The suppression of stars that formed at solar distances $\sim$7\;Gyr ago coincides with the time of the last significant merger ($z\sim0.7$).
 This event brought significant gas to the center of the galaxy, which switched the star-forming conditions from those producing mainly stars on halo-like orbits (more than 95\% of halo particles are older than 6\;Gyr) to the orderly production of disk particles (more than 90\% of disk particles were formed in the last 6\;Gyr).
 The formation distances between the disk and the halo component are equally dichotomous: most of the disk stars were formed close to their present-day distance from the galactic center ($5-11$\;kpc, shaded gray in Figure~\ref{fig:dform}), while halo stars originated from the extremes of the central 1\;kpc to the virial radius and beyiond.
@@ -393,7 +395,7 @@ At early times, most of the stars that formed in situ also become a part of the 
 Although satellite accretion onto the host galaxy continues after the last significant merger, none of the accreted stars reach the solar circle, so effectively all of the halo stars in the solar neighborhood were formed prior to the last significant merger.
 This is in line with findings of \citet{zolotov2009}, who showed that late-time accretion predominantly builds outer parts of the stellar halo.
 
-In summary, Latte stars formed at late times formed in the disk, while old stars in Latte are predominantly part of the halo.
+In summary, Latte stars born at late times formed in the disk, while old stars in Latte are predominantly part of the halo.
 One third of the halo in the solar neighborhood was accreted from the infalling satellites, while the majority of stars formed in situ in the inner galaxy and migrated to the solar circle.
 In this simplified depiction for the origin of the stellar halo, we do not account for the possibility that stars that formed within 20\;kpc still could have been bound to a satellite galaxy, and hence accreted, nor do we distinguish between different modes of in-situ halo formation (e.g., through a dissipative collapse; \citealt{samland2003}, or with stars being heated from the disk; \citealt{purcell2010}).
 These are not serious shortcomings, because satellites that entered the inner 20\;kpc were disrupted soon thereafter, so any newly-formed particles would have been only loosely bound to the satellite at the time.
@@ -403,16 +405,16 @@ We next consider the origin of Latte stars in terms of our observables -- their 
 Figure~\ref{fig:facc} shows the average fraction of accreted stars in Latte's halo as a function of both metallicity and the orientation of the angular momentum vector, $\theta_L$.
 The accreted fraction correlates strongly with metallicity: all of the lowest metallicity stars, [Fe/H]$\lesssim-2.5$, were accreted (yellow), and all of the metal-rich halo stars, [Fe/H]$\gtrsim-0.5$, formed in situ (purple).
 Interestingly, the accreted fraction shows almost no dependence on the current angular momentum orientation of a star, which means that metallicity is a much better diagnostic of a star's origin.
-Combined with the similarities between the global chemical and orbital properties in Latte and the Milky Way, this result suggests that the metal-rich halo component identified in the TGAS--RAVE-on sample formed in the inner Galaxy but was driven to the Solar circle through subsequent evolution.
-In the next section we outline how to test this hypothesis with the near-future data (\S\ref{sec:ages}) and discuss broader implications that the proposed scenario for the formation of the Solar neighborhood implies for the formation of the Galaxy (\S\ref{sec:diskheating}).
+Combined with the similarities between the global chemical and orbital properties in Latte and the Milky Way, this result suggests that the metal-rich halo component identified in the TGAS--RAVE-on sample formed in the inner Galaxy, but was driven to the Solar circle through subsequent evolution.
+In the next section we outline how to test this hypothesis with the near-future data (\S\ref{sec:ages}) and discuss broader implications that the proposed scenario for the formation of the Solar neighborhood has for the formation of the Galaxy (\S\ref{sec:diskheating}).
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{../plots/paper/latte_facc.pdf}
-\caption{Average fraction of accreted stars (using our definition in Figure~7) in the solar neighborhood of the Latte simulation as a function of metallicity and current angular momentum orientation angle.
-Whether or not a star was accreted does not correlat with its current orbital properties, but it correlates well with its metallicity.
+\caption{Average fraction of accreted stars (using our definition in Figure~\ref{fig:dform}) in the solar neighborhood of the Latte simulation as a function of metallicity and current angular momentum orientation angle.
+Whether or not a star was accreted does not correlate with its current orbital properties, but it correlates well with its metallicity.
 The accreted fraction varies smoothly between the metal-rich end, where all stars formed in situ, and the metal-poor end, where all stars were accreted.
-Thus, in the inner halo, a star's metallicity is a much better indicator than its current kinematics of its origin (the probability that it was accreted).
+Thus, in the inner halo, a star's metallicity is a much better indicator of its origin (the probability that it was accreted) than its current kinematics.
 }
 \label{fig:facc}
 \end{center}
@@ -471,41 +473,9 @@ Stars that have migrated outwards are typically more metal-rich than their neigh
 Idealized simulations of disk formation have found radial migration to be a key component in explaining numerous observables, such as the spread in the age--metallicity relation \citep{roskar2008} or the disk morphology and its abundance patterns \citep{schonrich2009}.
 Such studies have also shown that stars migrating outwards reach larger heights above the disk plane \citep[e.g.,][]{schonrich2009, loebman2011}.
 This scenario can explain, at least in part, formation of the thick disk \citep[e.g.,][]{wilson2011}, so it is also conceivable that the metal-rich stars we identified on the halo-like orbits are an endpoint of this process.
-
-- evidence for: schonrich (models with radial migration reproduce observations), solway, kordopatis
-- however, other sims show that radial migration doesn't change sigma\_z (Sellwood \& Binney 2002; Roskar et al.2008a; Di Matteo et al. 2013)
-- furthermore is most effective for stars with low sig\_z, so even if stars on hot orbits formed in the inner galaxy, they wouldn't necessarily be the ones migrating outwards (vera-ciro 2016)
-
-- but these are idealized, not cosmological
-- radial migration common in simulated low mass galaxies (kareem), caused by gas inflow/outflows still forming stars -- start with initial velocity + global change of the potential due to feedback
-- second effect likely negligible for the MW progenitor, even at early times (check)
-- but first operating -- evident from stellar tracks in Figure~\ref{fig:dform}
-
-If metal-rich halo stars truly originate from the inner Galaxy, then they not only illustrate an important dynamical mechanism shaping the Galaxy, but are also a unique window into star formation in the early Milky Way.
-In the next section, we demonstrate how the Latte model is predictive, and propose to test this origin scenario using stellar ages.
-
-% [IN PROGRESS]
-% - kareem's paper for radial migration mechanism noted in a dwarf galaxy simulated as a part of the FIRE project
-% - describe mechanism briefly
-% - compare final dwarf mass to MW before the significant merger, if similar -- can infer the mechanism is similar, leave further analysis for the future
-
-% - kim venn: evidence for radial migration (sims with it predicted stars with large Vz, thought didn't exist -- Navarro?)
-% - window into star formation in the inner region of the Galaxy, otherwise hardly accessible
-% - same mechanism that formed thick disk -- think in terms of a continuous distribution, not really a separate component
-
-% - schonrich predictions: %http://adsabs.harvard.edu/abs/2009MNRAS.396..203S
-
-% - radial migration doesn't change sigmaz? check how figure 8 looks in latte %http://adsabs.harvard.edu/abs/2014ApJ...794..173V
-% - also kordopatis 2015, rave, vertical structure independent of metallicity -- radial migration equally efficient for orbits of different scale-heights
-% - confirms picture of solway 2012, opposite of vera-ciro 2014, who saw most efficient migration for low $\sigma_z$
-% - loebman 2011: thick disk can form by radial migration; migrators increase their height above the plane
-
-% - check radial migration in high-res; zoltan haiman -- more effective if particles are massive
-
-
 However, subsequent numerical works have found that outward migrators do not attain larger scale heights from the disk plane \citep{minchev2012, vera-ciro2014}, thus casting doubts on the idea of forming the thick disk and a metal-rich halo through radial migration.
 
-However, these simulations have been initialized to match the orderly morphology of stellar disks observed at the present day, and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
+Simulations with radial migration we have discussed so far have been initialized to match the orderly morphology of stellar disks observed at the present day, and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
 In particular, the metal-rich halo in Latte was formed while the host galaxy was still actively accreting.
 The merging subhalos brought in a lot of gas to the galactic center (evident as star-forming tracks in Figure~\ref{fig:dform}), which fueled additional in situ star formation.
 \citet{elbadry2016} showed that these conditions create two mechanisms for radially displacing stars.
@@ -523,7 +493,7 @@ In the next section, we propose to test this origin scenario using stellar ages.
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.9\columnwidth]{../plots/paper/latte_ages.pdf}
-\caption{Metallicity range (16--84 percentile) of star particles as a function of their age for three structural components (defined as in Figures 6 - 7) identified at the solar circle of the Latte simulation: disk (red), in-situ halo (light blue) and accreted halo (dark blue).
+\caption{Metallicity range (16--84 percentile) of star particles as a function of their age for three structural components (defined as in Figures~\ref{fig:latte}--\ref{fig:dform}) identified at the solar circle of the Latte simulation: disk (red), in-situ halo (light blue) and accreted halo (dark blue).
 The in-situ halo follows the metallicity evolution of the disk, while the accreted halo particles of the same age are consistently more metal poor.
 This prediction can be directly tested once stellar ages are available for the Gaia stars.}
 \label{fig:ages}
