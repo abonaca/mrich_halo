@@ -690,12 +690,14 @@ def latte(mwcomp=False):
     # disk
     plt.hist(s.ltheta[s.disk], color=red, histtype='stepfilled', alpha=0.8, bins=bx, zorder=0, lw=2, normed=flag_norm, label='Disk')
     
+    if mwcomp:
+        plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
+        plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color=red, lw=2, label='', normed=True)
+        plt.plot([10,20], [-10,-11], color='0.2', lw=2, alpha=1, label='Milky Way', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
+
     # halo
     plt.hist(s.ltheta[s.halo & ~accreted], color=lblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
             label='Metal-rich halo')
-    plt.hist(s.ltheta[s.halo & accreted], color=dblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
-            label='Metal-poor halo')
-    
     # overplot MW
     if mwcomp:
         finite = np.isfinite(raveon.data['feh'])
@@ -703,12 +705,12 @@ def latte(mwcomp=False):
         plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
         plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='royalblue', lw=2, label='', normed=True)
 
+    plt.hist(s.ltheta[s.halo & accreted], color=dblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
+            label='Metal-poor halo')
+    if mwcomp:
         plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
         plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, histtype='step', color='navy', lw=2, label='', normed=True)
 
-        plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
-        plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color=red, lw=2, label='', normed=True)
-        plt.plot([10,20], [-10,-11], color='0.2', lw=2, alpha=1, label='Milky Way', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
     
     plt.xlim(0, 180)
     plt.ylim(1e-3, 0.1)
@@ -1178,4 +1180,25 @@ def vy_mode():
     
     plt.legend()
     
+def age_ltheta():
+    """"""
+    latte = load_survey('lattemdif')
+    mrich = latte.data['feh']>-1
     
+    Nage = 2
+    bins_age = np.linspace(8,14,Nage+1)
+    bins_ltheta = np.linspace(0,181,10)
+    
+    plt.close()
+    fig, ax = plt.subplots(1,2,figsize=(10,5))
+    
+    plt.sca(ax[0])
+    plt.plot(latte.data['age'][latte.halo & mrich], latte.ltheta[latte.halo & mrich], 'ko')
+    
+    plt.sca(ax[1])
+    for i in range(Nage):
+        ind = (latte.data['age']>=bins_age[i]) & (latte.data['age']<bins_age[i+1])
+        plt.hist(latte.ltheta[latte.halo & mrich & ind], bins=bins_ltheta, histtype='step', color=mpl.cm.magma(i/Nage), normed=True, lw=2, label='{}'.format(bins_age[i]))
+    
+    plt.legend()
+
