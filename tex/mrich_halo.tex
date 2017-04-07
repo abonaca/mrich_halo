@@ -25,12 +25,13 @@
 % \author{Andrew Wetzel\altaffilmark{2,3,4}\altaffiliation{Caltech-Carnegie Fellow}}
 \author{Andrew Wetzel\altaffilmark{2,3,4}$^\ddagger$}\thanks{$^\ddagger$ Caltech-Carnegie Fellow}
 \author{Philip F. Hopkins\altaffilmark{2}}
-\author{your name here}
+\author{Du\v san Kere\v s\altaffilmark{5}}
 
 \altaffiltext{1}{Department of Astronomy, Harvard University, Cambridge, MA 02138; {ana.bonaca@cfa.harvard.edu}}
 \altaffiltext{2}{TAPIR, California Institute of Technology, Pasadena, CA, USA}
 \altaffiltext{3}{Carnegie Observatories, Pasadena, CA, USA}
 \altaffiltext{4}{Department of Physics, University of California, Davis, CA, USA}
+\altaffiltext{5}{Department of Physics, Center for Astrophysics and Space Sciences, University of California at San Diego, La Jolla, CA, USA}
 
 \begin{abstract}
 % original
@@ -56,20 +57,45 @@ Our results imply that stellar metallicity is a better indicator of origin than 
 \maketitle
 
 \section{Introduction}
-[IN PROGRESS]
-- halo is old -- important as a window to star formation in the early universe
-- in situ reveals early phase of galaxy formation, at a much higher resolution than direct observations of high-z galaxies
-- origin of the stellar halo: lcdm prediction -- accreted, studies at large distances consistent with all accreted
-- sims with baryons: also an in situ component, especially in the inner halo/solar radius
+Stellar halos host some of galaxies' oldest stars \citep{beers2005}, offering a pristine window into an era that is challenging to observe directly \citep{jwst}.
+In the prevalent cosmology, galaxies grow hierarchically by accreting smaller structure \citep{white1978, diemand2007, springel2008, bolshoy}, and the archeological record of these galactic building blocks is especially well retained in the stellar halos.
+Upon accretion, smaller galaxies completely disrupt within several orbital periods \citep{helmi1999b}, and become a part of the smooth halo.
+Still, global halo properties contain information on the original systems.
+For example, the total mass of a halo is related to the number of massive accretion events \citep{bj2005, cooper2010}, the outer slope of the outer halo density profile increases with the current accretion rate \citep{diemer2014}, while the presence of a break in the density profile is indicative of a quiet merger history at late times \citep{deason2013}.
+% More recent accretion events are still coherent in the configuration space, and further inform about the underlying distribution of matter in the host galaxy (e.g., johnston1998, price-whelan2013, bonaca2014, ngan2015, sanders).
+Therefore, when studying the stellar halo of a galaxy, we are in fact analyzing a whole population of old galaxies.
 
-- indications for dual halo presence, although no clear origin designations
+Initially, however, the halo was thought to form in a dissipative collapse of a single protogalactic gas cloud \citep{els}.
+Modern works suggest that both of these processes contribute in forming a stellar halo: most of the halo stars have been \emph{accreted} from smaller galaxies, but a fraction has been formed \emph{in situ} inside of the main galaxy \citep{zolotov2009, font2011}.
+The in-situ component can contain stars formed in the initial gas collapse \citep{samland2003} and stars formed in the disk, which have subsequently been being kicked out and placed on halo orbits \citep{purcell2010}, and throughout this work, we use the term in-situ halo to address both of these origin scenarios.
+The contribution of stars formed in situ to the stellar halo decreases with distance from the galactic center, and its total depends on the formation history.
+For Milky Way-like galaxies, $10-30$\% of halo stars in the Solar neighborhood are expected to have formed in situ \citep{zolotov2009}. 
+Thorough understanding of stellar halos relies on disentangling its accreted and in-situ components.
 
+Recent accretion events are still coherent in the configuration space, and have been observed throughout the Local Universe. 
+- some are bound \citep{sz}
+- different stages of disruption tidal streams, clouds in the MW, M31, elsewhere
+- partially dissolved: bell, recent rockosi paper
+- studies at large distances consistent with all accreted
+
+- some indications for dual halo presence carollo, beers
+- most recently deason
+- contested (ralph)
+- although no clear origin designations
+
+* challenge
+- making the connection
+- precise orbital information available only close to the sun
+- simulations not high enough resolution to analyze this volume
+
+* our strategy
 - for the first time we can look into detailed properties of a local halo sample
 - thanks to Gaia \citep{perryman2001}, DR1 + RAVE-on, we have a large sample of stars with complete phase space info -- can kinematically select an unbiased sample of halo stars
 - compare local neighborhood properties to those in latte, a high-res mw-like sim
-
 - confluence of major advances in precision of observations in the solar neighborhood, as well as our theoretical understanding of growth of MW like galaxies
 - first driven by Gaia, second in Latte
+
+* outline
 
 % Part of the inner halo may have formed in situ, i.e., within the main body of the Galaxy (Abadi et al. 2006). Recent simulations suggest that a fraction of stars formed in the early Galactic disk could have been ejected into the inner halo, and further in situ halo stars could have formed from gas stripped from infalling satellites (Font et al. 2011, McCarthy et al. 2012, Tissera et al. 2013, Cooper et al. 2015, Pillepich et al. 2015), but the quantitative importance of these processes is not yet fully understood. Observationally, evidence for a dual halo has been put forward by Carollo et al. (2007) and Beers et al. (2012), but see Schönrich et al. (2014).
 
@@ -270,6 +296,7 @@ In the next section, we explore the origin of these distributions in terms of a 
 The three main components of the Galaxy present in the solar neighborhood are the thin disk, the thick disk and the halo \citep[e.g.,][]{bhg2016}.
 In this section we test whether the measured orientations of the angular momenta (\S\ref{sec:l}) are well described in the context of such a three component model, or whether there are additional features revealed by Gaia.
 We first study the distribution of angular momenta using a toy model of the Galaxy in \S\ref{sec:toymodel}, and then analyze properties of a solar-like neighborhood in a cosmological hydrodynamical simulation (\S\ref{sec:latte}).
+% , and suggest a test for our conclusions by analyzing stellar ages as a function of metallicity in \S~\ref{sec:ages}
 
 \subsection{Toy model}
 \label{sec:toymodel}
@@ -367,8 +394,8 @@ We define the formation distance of a star particle in Latte as its distance fro
 Stars with disk kinematics (as defined by our Toomre-diagram cut in Figure~\ref{fig:latte}) are shown in red, while those identified as halo are blue.
 The suppression of stars that formed at solar distances $\sim$7\;Gyr ago coincides with the time of the last significant merger ($z\sim0.7$).
 This event brought significant gas to the center of the galaxy, which switched the star-forming conditions from those producing mainly stars on halo-like orbits (more than 95\% of halo stars are older than 6\;Gyr) to the orderly production of disk stars (more than 90\% of disk stars were formed in the last 6\;Gyr).
-The formation distances between the disk and the halo component are equally dichotomous: most of the disk stars were formed close to their present-day distance from the galactic center ($5-11$\;kpc, shaded gray in Figure~\ref{fig:dform}), while halo stars originated from the extremes of the central 1\;kpc to the virial radius and beyiond.
-Overall, only $\sim20$\% of Latte stars on halo orbits were formed inside of their present-day radial distance range, indicating that radial migration/heating is an important phenomenon sculpting the inner Galaxy.
+The formation distances between the disk and the halo component are equally dichotomous: most of the disk stars were formed close to their present-day distance from the galactic center ($5-11$\;kpc, shaded gray in Figure~\ref{fig:dform}), while halo stars originated from the extremes of the central 1\;kpc to the virial radius and beyond.
+Overall, only $\sim20$\% of Latte stars on halo orbits were formed inside of their present-day radial distance range, indicating that radial redistribution is an important phenomenon sculpting the inner Galaxy.
 We discuss the implications of the halo component undergoing radial migration/heating in \S\ref{sec:migration}.
 
 \begin{figure}
@@ -408,6 +435,8 @@ Interestingly, the accreted fraction shows almost no dependence on the current a
 Combined with the similarities between the global chemical and orbital properties in Latte and the Milky Way, this result suggests that the metal-rich halo component identified in the TGAS--RAVE-on sample formed in the inner Galaxy, but was driven to the Solar circle through subsequent evolution.
 In the next section we outline how to test this hypothesis with the near-future data (\S\ref{sec:ages}) and discuss broader implications that the proposed scenario for the formation of the Solar neighborhood has for the formation of the Galaxy (\S\ref{sec:diskheating}).
 
+% -it might be worth mentioning that Latte results are likely biased towards greater importance of ``in situ'' halo (according to metallicity differences in the distribution between two halo components in Figure 6 in obs. and Latte and the fact that there is 10% of the halo in Latte vs. 1% in the obs.)
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{../plots/paper/latte_facc.pdf}
@@ -419,77 +448,6 @@ Thus, in the inner halo, a star's metallicity is a much better indicator of its 
 \label{fig:facc}
 \end{center}
 \end{figure}
-
-\section{Discussion}
-
-In the previous section, we identified halo metallicity as a good indicator of its origin, and concluded that the metal-rich halo stars that we identified kinematically in the Solar neighborhood have formed in situ, inside the Solar circle.
-Here we review previously reported evidence for metal-rich halo stars in \S~\ref{sec:previous}, discuss mechanisms that heat stars originally formed in the disk to halo-like orbits in \S~\ref{sec:diskheating}, and suggest a test for our conclusions by analyzing stellar ages as a function of metallicity in \S~\ref{sec:ages}.
-
-\subsection{Previous evidence for a metal-rich halo}
-\label{sec:previous}
-Large-scale spectroscopic surveys have mapped the distribution of stellar metallicity in the Milky Way \citep[e.g.,][]{ivezic2008}.
-Some of these stars have distance estimates, and can therefore be spatially identified as a part of the disk or a halo.
-Relevant for this discussion, halo stars in the outer Galaxy, $R_{G}>15$\;kpc, are very metal-poor, with median $\rm[Fe/H]\sim-2.2$, while in the inner Galaxy, typical metallicity of a halo star is $\rm[Fe/H]\sim-1.6$ \citep[e.g.,][]{carollo2007, dejong2010}, which agrees well with the metal-poor halo component identified in our sample.
-Also similar to our findings, metallicities of the inner halo extend to the solar value, even though these are the tail of the metallicity distribution \citep[e.g.,][]{allendeprieto2006}, and not an additional component that is visible in Figure~\ref{fig:mdf}.
-
-However, employing only spatial information makes it hard to distinguish between the halo and the thick-disk, especially at high metallicity.
-The difference between the thick disk and the halo is more pronounced in kinematics, so \citet{sheffield2012} selected outliers from the disk velocity field to study the halo.
-They identified eight metal-rich halo stars, whose $\alpha$-abundances are consistent with disk, and suggested these have been kicked out of the disk.
-Still, none of these stars have kinematics that could rule out a thick disk interpretation at a $3\;\sigma$ level.
-
-To date, only one metal-rich star has a high probability of being a halo star \citep{hawkins2015}.
-This star has high velocity in the Galactic rest frame, $V_{GSR}\simeq430$\;km/s, and is on an eccentric orbit, $e=0.72$, that reaches $\sim30$\;kpc above the Galactic plane, but has a metallicity $\rm[Fe/H]=-0.18$, so \citet{hawkins2015} concluded it has been ejected from the thick disk.
-Though valuable as an indicator of the processes governing the assembly of the Galaxy, it is a single star.
-
-In this paper, we presented the first unambiguous detection of a significant population of metal-rich halo stars.
-In the next couple of sections we explore potential origin scenarios and implications for the upcoming observables.
-
-\subsection{Disk heating mechanisms}
-\label{sec:diskheating}
-The excess of metal-rich halo stars on prograde orbits indicates they originate from within the Milky Way disk, but it is unclear at what Galactocentric distance these stars were formed.
-The bulk of similarly selected stars in Latte originated from the inner Galaxy, implying that a degree of radial migration and/or heating occurred.
-Alternatively, these stars could be runaway stars -- stars kicked out of the disk at the Solar radius during binary interactions, which is a process not captured within the Latte simulation.
-In this section we explore implications of these opposing disk heating mechanisms, and assess how plausible they are in explaining metal-rich halo stars detected in RAVE-on--TGAS.
-
-\subsubsection{Runaway stars}
-\label{sec:runaway}
-Runaway stars are young, usually OB stars that were formed in the disk and ejected from their birthplace \citep{blaauw1961}.
-Some of them have been found in the halo \citep[e.g.,][]{conlon1990}, so it is sensible to test whether any of our metal-rich halo stars are in fact runaway stars.
-Having formed in the disk recently, runaways should have high metallicities, and \citet{bromley2009} have already suggested that solar-metallicity stars reported at 5\;kpc away from the Galactic place \citep{ivezic2008} could be runaway stars.
-The metallicity distribution of our metal-rich halo peaks at $\rm[Fe/H]\approx-0.5$, so most of them are probably not runaway stars.
-However, the high-metallicity tail of our halo sample extends to super-solar values, so we test whether any of those stars are consistent with being runaways.
-
-To test the runaway hypothesis, we analyze the fraction of runaways expected in a disk population.
-Recently, \citet{bromley2009} studied the dynamical evolution of stars ejected from the disk via the massive binary mechanism, while \citet{perets2012} performed a similar study assuming runaways originate from two-body interactions in dense clusters.
-Both studies recovered the observation that a fraction of runaways increases with stellar mass: up to 40\% of O stars are displaced from their birthplace, while this fraction is 5\% for B stars \citep{blaauw1961, gies1986}, and for the first time estimated that the fraction of runaway A stars is $\approx2\%$.
-There are no OB stars in our metal-rich halo sample, most likely because performing spectroscopic analysis of these hot stars is challenging, so none were included in the RAVE-on catalog.
-There are, however, three A halo stars in our sample, and all of them have a super-solar metallicity, $\rm[Fe/H]>0$.
-These are prime candidates for runaway stars, but they constitute only 0.5\% of the metal-rich halo sample, so we can safely conclude that runaway stars are a minor component of the observed metal-rich stellar halo.
-
-\subsubsection{Radial migration}
-\label{sec:migration}
-In the classical picture of radial migration, spiral structures in the disk radially scatter nearby stars up to several kpc \citep{sellwood2002}.
-Stars that have migrated outwards are typically more metal-rich than their neighbors, so radial migration explains why some stars in the Solar neighborhood (including the Sun!) are more metal-rich than both the surrounding stellar population and the local interstellar medium \citep{wielen1996}.
-Idealized simulations of disk formation have found radial migration to be a key component in explaining numerous observables, such as the spread in the age--metallicity relation \citep{roskar2008} or the disk morphology and its abundance patterns \citep{schonrich2009}.
-Such studies have also shown that stars migrating outwards reach larger heights above the disk plane \citep[e.g.,][]{schonrich2009, loebman2011}.
-This scenario can explain, at least in part, the formation of the thick disk \citep[e.g.,][]{wilson2011}, so it is also conceivable that the metal-rich stars we identified on the halo-like orbits are an endpoint of this process.
-However, subsequent numerical works have found that outward migrators do not attain larger scale heights from the disk plane \citep{minchev2012, vera-ciro2014}, thus casting doubts on the idea of forming the thick disk and a metal-rich halo through radial migration.
-
-The above results on radial migration were from simulations initialized to match the orderly morphology of stellar disks observed at the present day and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
-In particular, the metal-rich halo in the Latte simulation was formed at early cosmic times ($z \gtrsim 1$, or age $\gtrsim 7$ Gyr), before the formation of the thin disk \citep{ma2016} while the host galaxy was still actively accreting.
-Merging satellites brought in significant gas to the galactic center (evident as star-forming tracks in Figure~\ref{fig:dform}), which fueled additional in-situ star formation.
-\citet{elbadry2016} showed that these conditions create two mechanisms for radially displacing stars from their birth location.
-First, some stars are formed during gas outflows, so their initial orbits can be eccentric and have large apocenters.
-Second, the combination of inflowing gas accretion and gas outflows driven by stellar feedback produce strong fluctuations in the underlying gravitational potential.
-Such fluctuations have already been shown to change the distribution of dark matter, in particular, in generating a cored density profile \citep[e.g.,][]{pontzen2012, brooks2014, dicintio2014, chan:fire.dwarf.cusps}, but \citet{elbadry2016} further showed that stellar orbits are affected as well, ultimately becoming heated to a more isotropic distribution.
-This mechanism is most efficient in relatively shallow potential wells of dwarf galaxies.
-While the Milky Way-mass host galaxy in Latte is too massive to exhibit such behavior at $z \sim 0$, its progenitor has significantly lower stellar mass (was more gas rich) while the metal-rich halo was forming, so we suggest that a similar process drove the radial migration to the Solar circle that we see here.
-We will investigate this behavior in Latte in more detail in future work.
-
-Radial migration, driven by large-scale motions in the Milky Way progenitor, could explain the origin of metal-rich stars on halo-like orbits in the Solar neighborhood.
-If these stars truly originate from the inner Galaxy, then they not only illustrate an important dynamical mechanism shaping the Galaxy, but are also a unique window into star formation in the early Milky Way.
-In the next section, we propose to test this origin scenario using stellar ages.
-
 
 \begin{figure}
 \begin{center}
@@ -531,6 +489,81 @@ TGAS has already increased the sample of stars with known distances by an order 
 In such a procedure, ages of red giants are measured with a precision of $1-3$\;Gyr when only photometric data is available.
 Including spectroscopically derived stellar parameters reduces the uncertainty in recovered ages to 1\;Gyr (P.~Cargile, private communication).
 Most of the halo stars in our sample are giants, so if the bifurcation in the age--metallicity relation of halo stars exists at the level suggested by the simulation studied here, we will soon be able to detect it observationally.
+
+
+\section{Discussion}
+
+In the previous section, we identified halo metallicity as a good indicator of its origin, and concluded that the metal-rich halo stars that we identified kinematically in the Solar neighborhood have formed in situ, inside the Solar circle.
+Here put our results in the context of previously reported evidence for metal-rich halo stars in \S~\ref{sec:previous}, and discuss mechanisms that heat stars originally formed in the disk to halo-like orbits in \S~\ref{sec:diskheating}.
+
+\subsection{Previous evidence for a metal-rich halo}
+\label{sec:previous}
+Large-scale spectroscopic surveys have mapped the distribution of stellar metallicity in the Milky Way \citep[e.g.,][]{ivezic2008}.
+Some of these stars have distance estimates, and can therefore be spatially identified as a part of the disk or a halo.
+Relevant for this discussion, halo stars in the outer Galaxy, $R_{G}>15$\;kpc, are very metal-poor, with median $\rm[Fe/H]\sim-2.2$, while in the inner Galaxy, typical metallicity of a halo star is $\rm[Fe/H]\sim-1.6$ \citep[e.g.,][]{carollo2007, dejong2010}, which agrees well with the metal-poor halo component identified in our sample.
+Also similar to our findings, metallicities of the inner halo extend to the solar value, even though these are the tail of the metallicity distribution \citep[e.g.,][]{allendeprieto2006}, and not an additional component that is visible in Figure~\ref{fig:mdf}.
+
+However, employing only spatial information makes it hard to distinguish between the halo and the thick-disk, especially at high metallicity.
+The difference between the thick disk and the halo is more pronounced in kinematics, so \citet{sheffield2012} selected outliers from the disk velocity field to study the halo.
+They identified eight metal-rich halo stars, whose $\alpha$-abundances are consistent with disk, and suggested these have been kicked out of the disk.
+Still, none of these stars have kinematics that could rule out a thick disk interpretation at a $3\;\sigma$ level.
+
+To date, only one metal-rich star has a high probability of being a halo star \citep{hawkins2015}.
+This star has high velocity in the Galactic rest frame, $V_{GSR}\simeq430$\;km/s, and is on an eccentric orbit, $e=0.72$, that reaches $\sim30$\;kpc above the Galactic plane, but has a metallicity $\rm[Fe/H]=-0.18$, so \citet{hawkins2015} concluded it has been ejected from the thick disk.
+Though valuable as an indicator of the processes governing the assembly of the Galaxy, it is a single star.
+
+In this paper, we presented the first unambiguous detection of a significant population of metal-rich halo stars.
+In the next couple of sections we explore potential origin scenarios and implications for the upcoming observables.
+
+%bensby+ 2014 http://adsabs.harvard.edu/abs/2014A%26A...562A..71B
+%adibekyan+ 2011 https://ui.adsabs.harvard.edu/#abs/2011A&A...535L..11A/abstract
+
+\subsection{Disk heating mechanisms}
+\label{sec:diskheating}
+The excess of metal-rich halo stars on prograde orbits indicates they originate from within the Milky Way disk, but it is unclear at what Galactocentric distance these stars were formed.
+The bulk of similarly selected stars in Latte originated from the inner Galaxy, implying that a degree of radial migration and/or heating occurred.
+Alternatively, these stars could be runaway stars -- stars kicked out of the disk at the Solar radius during binary interactions, which is a process not captured within the Latte simulation.
+In this section we explore implications of these opposing disk heating mechanisms, and assess how plausible they are in explaining metal-rich halo stars detected in RAVE-on--TGAS.
+
+\subsubsection{Runaway stars}
+\label{sec:runaway}
+Runaway stars are young, usually OB stars that were formed in the disk and ejected from their birthplace \citep{blaauw1961}.
+Some of them have been found in the halo \citep[e.g.,][]{conlon1990}, so it is sensible to test whether any of our metal-rich halo stars are in fact runaway stars.
+Having formed in the disk recently, runaways should have high metallicities, and \citet{bromley2009} have already suggested that solar-metallicity stars reported at 5\;kpc away from the Galactic place \citep{ivezic2008} could be runaway stars.
+The metallicity distribution of our metal-rich halo peaks at $\rm[Fe/H]\approx-0.5$, so most of them are probably not runaway stars.
+However, the high-metallicity tail of our halo sample extends to super-solar values, so we test whether any of those stars are consistent with being runaways.
+
+To test the runaway hypothesis, we analyze the fraction of runaways expected in a disk population.
+Recently, \citet{bromley2009} studied the dynamical evolution of stars ejected from the disk via the massive binary mechanism, while \citet{perets2012} performed a similar study assuming runaways originate from two-body interactions in dense clusters.
+Both studies recovered the observation that a fraction of runaways increases with stellar mass: up to 40\% of O stars are displaced from their birthplace, while this fraction is 5\% for B stars \citep{blaauw1961, gies1986}, and for the first time estimated that the fraction of runaway A stars is $\approx2\%$.
+There are no OB stars in our metal-rich halo sample, most likely because performing spectroscopic analysis of these hot stars is challenging, so none were included in the RAVE-on catalog.
+There are, however, three A halo stars in our sample, and all of them have a super-solar metallicity, $\rm[Fe/H]>0$.
+These are prime candidates for runaway stars, but they constitute only 0.5\% of the metal-rich halo sample, so we can safely conclude that runaway stars are a minor component of the observed metal-rich stellar halo.
+
+\subsubsection{Radial migration}
+\label{sec:migration}
+In the classical picture of radial migration, spiral structures in the disk radially scatter nearby stars up to several kpc \citep{sellwood2002}.
+Stars that have migrated outwards are typically more metal-rich than their neighbors, so radial migration explains why some stars in the Solar neighborhood (including the Sun!) are more metal-rich than both the surrounding stellar population and the local interstellar medium \citep{wielen1996}.
+Idealized simulations of disk formation have found radial migration to be a key component in explaining numerous observables, such as the spread in the age--metallicity relation \citep{roskar2008} or the disk morphology and its abundance patterns \citep{schonrich2009}.
+Such studies have also shown that stars migrating outwards reach larger heights above the disk plane \citep[e.g.,][]{schonrich2009, loebman2011}.
+This scenario can explain, at least in part, the formation of the thick disk \citep[e.g.,][]{wilson2011}, so it is also conceivable that the metal-rich stars we identified on the halo-like orbits are an endpoint of this process.
+However, subsequent numerical works have found that outward migrators do not attain larger scale heights from the disk plane \citep{minchev2012, vera-ciro2014}, thus casting doubts on the idea of forming the thick disk and a metal-rich halo through radial migration.
+
+The above results on radial migration were from simulations initialized to match the orderly morphology of stellar disks observed at the present day and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
+In particular, the metal-rich halo in the Latte simulation was formed at early cosmic times ($z \gtrsim 1$, or age $\gtrsim 7$ Gyr), before the formation of the thin disk \citep{ma2016} while the host galaxy was still actively accreting.
+Accretion from the inter-galactic medium and merging satellites brought in a lot of gas to the galactic center (evident as star-forming tracks in Figure~\ref{fig:dform}), which fueled additional in-situ star formation.
+\citet{elbadry2016} showed that these conditions create two mechanisms for radially displacing stars from their birth location.
+First, some stars are formed during gas outflows, so their initial orbits can be eccentric and have large apocenters.
+Second, the combination of inflowing gas accretion and gas outflows driven by stellar feedback produce strong fluctuations in the underlying gravitational potential.
+Such fluctuations have already been shown to change the distribution of dark matter, in particular, in generating a cored density profile \citep[e.g.,][]{pontzen2012, brooks2014, dicintio2014, chan:fire.dwarf.cusps}, but \citet{elbadry2016} further showed that stellar orbits are affected as well, ultimately becoming heated to a more isotropic distribution.
+This mechanism is most efficient in relatively shallow potential wells of dwarf galaxies.
+While the Milky Way-mass host galaxy in Latte is too massive to exhibit such behavior at $z \sim 0$, its progenitor has significantly lower stellar mass (was more gas rich) while the metal-rich halo was forming, so we suggest that a similar process drove the radial migration to the Solar circle that we see here, consistent with conclusions of \citet{ma2017}.
+We will investigate this behavior in Latte in more detail in future work.
+
+Radial migration, driven by large-scale motions in the Milky Way progenitor, could explain the origin of metal-rich stars on halo-like orbits in the Solar neighborhood.
+If these stars truly originate from the inner Galaxy, then they not only illustrate an important dynamical mechanism shaping the Galaxy, but are also a unique window into star formation in the early Milky Way.
+In the next section, we propose to test this origin scenario using stellar ages.
+
 
 % \section{Conclusions}
 
