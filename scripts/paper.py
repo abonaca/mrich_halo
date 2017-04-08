@@ -553,37 +553,54 @@ def toy_model(seed=205):
     print('halo completeness', np.sum(mock_halo & thalo)/np.sum(thalo))
     
     plt.close()
-    fig, ax = plt.subplots(3, 1, figsize=(5.5,13), gridspec_kw = {'height_ratios':[1,1.5,1.5]})
+    fig, ax = plt.subplots(3, 1, figsize=(5.5,12.5), gridspec_kw = {'height_ratios':[1.02,1.5,1.5]})
     
     plt.sca(ax[0])
     plt.plot(vh_y, vh_xz, 'k-', lw=3, zorder=10)
 
     txz = np.sqrt(tv[:,0]**2 + tv[:,2]**2)
-    plt.plot(tv[:,1][tdisk], txz[tdisk], 'o', color=red, ms=2, rasterized=True)
-    plt.plot(tv[:,1][thalo], txz[thalo], 'o', color=blue, ms=2, rasterized=True)
+    plt.plot(tv[:,1][tdisk], txz[tdisk], 'o', color=red, ms=2, rasterized=True, label='Toy disk')
+    plt.plot(tv[:,1][thalo], txz[thalo], 'o', color=blue, ms=2, rasterized=True, label='Toy halo')
     
+    t = plt.text(0.98, 0.1, 'Disk', transform=ax[0].transAxes, ha='right', fontsize='medium')
+    t.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+    t = plt.text(0.98, 0.6, 'Halo', transform=ax[0].transAxes, ha='right', fontsize='medium')
+    t.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+    
+    plt.legend(loc=2, frameon=False, fontsize='small', handlelength=0.2, markerscale=2)
     plt.xlim(-400,400)
     plt.ylim(0,400)
     plt.xlabel('$V_Y$ (km/s)')
     plt.ylabel('$V_{XZ}$ (km/s)')
+    title = plt.title('Toy model')
+    title.set_position([.5, 1.05])
     
     plt.sca(ax[1])
     bx = np.linspace(0, 180, 15)
     plt.hist(theta[tdisk], bins=bx, histtype='stepfilled', color=red, alpha=0.8, lw=4, label='Toy disk')
     plt.hist(theta[thalo], bins=bx, histtype='stepfilled', color=blue, alpha=0.8, lw=4, label='Toy halo')
 
-    plt.hist(theta, bins=bx, histtype='step', color='k', lw=3, label='Toy model')
-    plt.hist(raveon.ltheta, bins=bx, histtype='step', color='0.5', ls='--', lw=3, label='Milky Way')
+    plt.hist(theta, bins=bx, histtype='step', color='0.5', lw=2, label='')
+    plt.plot([-1,0], [-10,-11], color='0.5', lw=2, alpha=1, label='Toy model')
+    
+    plt.hist(raveon.ltheta, bins=bx, histtype='step', color='0.9', lw=4, label='')
+    plt.hist(raveon.ltheta, bins=bx, histtype='step', color='0.2', lw=2, label='')
+    plt.plot([-1,0], [-10,-11], color='0.2', lw=2, alpha=1, label='Milky Way', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
 
     plt.xlim(0,180)
     plt.ylim(9e-1, 3e5)
     plt.gca().set_yscale('log')
-    ax[1].set_xticks(np.arange(0,181,90))
+    ax[1].set_xticks(np.arange(0,181,45))
 
     plt.legend(loc=2, frameon=False, fontsize='small')
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Number of stars')
     plt.title('True membership', fontsize='medium')
+    
+    h_, l_ = ax[1].get_legend_handles_labels()
+    hcorr = h_[2:] + h_[:2]
+    lcorr = l_[2:] + l_[:2]
+    ax[1].legend(hcorr, lcorr, frameon=False, loc=2, fontsize='small')
     
     plt.sca(ax[2])
     plt.hist(theta[thalo & mock_halo], bins=bx, histtype='stepfilled', color=blue, alpha=0.8, lw=4, label='Isotropic toy halo', normed=True)
@@ -593,19 +610,32 @@ def toy_model(seed=205):
     bxmod = np.copy(bx)
     bxmod[0] -= 1
     bxmod[-1] += 2
-    plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color=dblue, lw=2, label='Metal-poor MW halo', normed=True, zorder=10)
-    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color='w', lw=4, label='', normed=True)
-    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='Metal-rich MW halo', normed=True)
+    
+    plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color='0.9', lw=4, label='', normed=True)
+    plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color=dblue, lw=2, label='', normed=True)
+    plt.plot([-1,0], [-10,-11], color=dblue, lw=2, alpha=1, label='Milky Way, metal-poor halo', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
+    
+    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color='0.9', lw=4, label='', normed=True)
+    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='', normed=True)
+    plt.plot([-1,0], [-10,-11], color=lblue, lw=2, alpha=1, label='Milky Way, metal-rich halo', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
+    
+    #plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color='w', lw=4, label='', normed=True)
+    #plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='Metal-rich MW halo', normed=True)
     
     plt.xlim(0,180)
     plt.gca().set_yscale('log')
-    ax[2].set_xticks(np.arange(0,181,90))
+    ax[2].set_xticks(np.arange(0,181,45))
 
     plt.legend(loc=2, frameon=False, fontsize='small')
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Probability density (deg$^{-1}$)')
     plt.ylim(3e-4, 1.4e-1)
     plt.title('Kinematic selection', fontsize='medium')
+    
+    h_, l_ = ax[2].get_legend_handles_labels()
+    hcorr = [h_[2]] + h_[:2]
+    lcorr = [l_[2]] + l_[:2]
+    ax[2].legend(hcorr, lcorr, frameon=False, loc=2, fontsize='small')
     
     plt.tight_layout()
     plt.savefig('../plots/paper/toy_model.pdf', bbox_inches='tight')
