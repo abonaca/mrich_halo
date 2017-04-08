@@ -103,6 +103,8 @@ def load_survey(survey):
         s = Survey('apogee', label='APOGEE', sdisk=220*u.km/u.s, qrel=1, qrv=20)
     elif survey=='lattemdif':
         s = Survey('lattemdif', label='Latte', observed=False, vdisk=250*u.km/u.s, sdisk=220*u.km/u.s)
+    else:
+        s = Survey(survey, label=survey, observed=False, vdisk=250*u.km/u.s, sdisk=220*u.km/u.s)
         
     return s
 
@@ -551,7 +553,7 @@ def toy_model(seed=205):
     print('halo completeness', np.sum(mock_halo & thalo)/np.sum(thalo))
     
     plt.close()
-    fig, ax = plt.subplots(1, 3, figsize=(12,4.3))
+    fig, ax = plt.subplots(3, 1, figsize=(5.5,13), gridspec_kw = {'height_ratios':[1,1.5,1.5]})
     
     plt.sca(ax[0])
     plt.plot(vh_y, vh_xz, 'k-', lw=3, zorder=10)
@@ -1202,3 +1204,228 @@ def age_ltheta():
     
     plt.legend()
 
+
+
+### Latte comparison ###
+# cross-check of all the plots in metal-diffusion, fiducial and high-res runs
+
+def comp_latte():
+    """"""
+    mpl.rcParams['axes.linewidth'] = 1.5
+    
+    plt.close()
+    fig, ax = plt.subplots(3, 3, figsize=(16.5,13), gridspec_kw = {'height_ratios':[1,1.5,1.5]})
+    
+    for i, survey in enumerate(['lattemdif', 'lattefid', 'lattehr']):
+        s = load_survey(survey)
+        fehacc = -1
+        accreted = s.data['feh']<=fehacc
+        
+        plt.sca(ax[0][i])
+        im = plt.scatter(s.vy, s.vxz, c=s.data['feh'], s=10, cmap='magma', vmin=-2.5, vmax=0.5, edgecolors='none', rasterized=True)
+
+        vh_y = np.linspace(0,400,400)*u.km/u.s
+        vh_xz = np.sqrt(s.sdisk**2 - (vh_y - s.vdisk)**2)
+        plt.plot(vh_y, vh_xz, 'k-', lw=2)
+        
+        t = plt.text(0.98, 0.1, 'Disk', transform=ax[0][i].transAxes, ha='right', fontsize='medium')
+        t.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+        t = plt.text(0.98, 0.6, 'Halo', transform=ax[0][i].transAxes, ha='right', fontsize='medium')
+        t.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+        
+        plt.xlim(-400,400)
+        plt.ylim(0,400)
+        plt.xlabel('$V_Y$ (km/s)')
+        plt.ylabel('$V_{XZ}$ (km/s)')
+        title = plt.title(survey)
+        title.set_position([.5, 1.4])
+        
+        divider = make_axes_locatable(ax[0][i])
+        cax = divider.append_axes("top", size="4%", pad=0.05)
+        plt.colorbar(im, cax=cax, ticks=np.arange(-2.5,0.51,0.5), orientation='horizontal')
+        
+        cax.xaxis.tick_top()
+        cax.tick_params(labelsize='small')
+        cax.tick_params(axis=u'both', which=u'both',length=0)
+        plt.xlabel('[Fe/H]', fontsize='small')
+        cax.xaxis.set_label_position('top') 
+        
+        plt.sca(ax[1][i])
+        bx = np.arange(-2.5,0.5,0.2)
+        
+        plt.hist(s.data['feh'][s.disk], bins=bx, histtype='stepfilled', color=red, normed=True, lw=0, alpha=0.8, label='Disk')
+        plt.hist(s.data['feh'][s.halo], bins=bx, histtype='stepfilled', color=blue, normed=True, lw=0, alpha=0.8, label='Halo')
+
+        plt.axvline(-1, ls='--', lw=2, color='0.2')
+        plt.xlabel('[Fe/H]')
+        plt.ylabel('Probability density (dex$^{-1}$)')
+        plt.title('Kinematic selection', fontsize='medium')
+
+        ax[1][i].set_ylim(bottom=0)
+
+        leg = plt.legend(frameon=False, loc=2, fontsize='small')
+
+        plt.sca(ax[2][i])
+        bx = np.linspace(0,180,10)
+        flag_norm = True
+        
+        # disk
+        plt.hist(s.ltheta[s.disk], color=red, histtype='stepfilled', alpha=0.8, bins=bx, zorder=0, lw=2, normed=flag_norm, label='Disk')
+
+        # halo
+        plt.hist(s.ltheta[s.halo & ~accreted], color=lblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
+                label='Metal-rich halo')
+
+        plt.hist(s.ltheta[s.halo & accreted], color=dblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
+                label='Metal-poor halo')
+        
+        plt.xlim(0, 180)
+        plt.ylim(1e-3, 0.1)
+        ax[2][i].set_yscale('log')
+        ax[2][i].set_xticks(np.arange(0,181,45))
+        
+        plt.xlabel('$\\vec{L}$ orientation (deg)')
+        plt.ylabel('Probability density (deg$^{-1}$)')
+        plt.title('Kinematic selection', fontsize='medium')
+
+        plt.legend(loc=2, frameon=False, fontsize='small')
+        
+        for j in [1,2]:
+            h_, l_ = ax[j][i].get_legend_handles_labels()
+            hcorr = h_[1:] + [h_[0]]
+            lcorr = l_[1:] + [l_[0]]
+            ax[j][i].legend(hcorr, lcorr, frameon=False, loc=2, fontsize='small')
+
+    
+    plt.tight_layout()
+    plt.savefig('../plots/comparison_latte.pdf', bbox_inches='tight')
+    mpl.rcParams['axes.linewidth'] = 2
+
+def comp_latte_dform2():
+    """"""
+    plt.close()
+    fig, ax = plt.subplots(1,3,figsize=(15 ,5))
+    
+    for i, survey in enumerate(['lattemdif', 'lattefid', 'lattehr']):
+        latte = load_survey(survey)
+
+        dacc = 20
+        accreted = latte.data['feh']<=-1
+        lw = 0.3
+        ms = 5
+        
+        plt.sca(ax[i])
+        plt.plot(latte.data['age'][latte.disk], latte.data['dform'][latte.disk], 'o', ms=ms, c=red, mec='w', mew=lw, rasterized=True, label='Disk')
+        plt.plot(latte.data['age'][latte.halo & accreted], latte.data['dform'][latte.halo & accreted], 'o', ms=ms, c=dblue, mec='w', mew=lw, rasterized=True, label='Metal-poor halo')
+        plt.plot(latte.data['age'][latte.halo & ~accreted], latte.data['dform'][latte.halo & ~accreted], 'o', ms=ms, c=lblue, mec='w', mew=lw, rasterized=True, label='Metal-rich halo')
+
+        plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
+        plt.axhspan(5, 11, color='0.5', alpha=0.2, zorder=2)
+        plt.text(0.75,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
+        plt.text(0.75,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
+        
+        plt.ylim(1e-1,500)
+        plt.xlim(13.8,0)
+        plt.gca().set_yscale('log')
+        plt.xlabel('Age (Gyr)')
+        plt.ylabel('Formation distance (kpc)')
+        plt.legend(loc=4, fontsize='small', frameon=False, handlelength=0.2)
+        plt.title(survey)
+
+    plt.tight_layout()
+    plt.savefig('../plots/comparison_latte_dform2.pdf', bbox_inches='tight')
+
+def comp_latte_facc():
+    """"""
+    plt.close()
+    fig, ax = plt.subplots(1,3,figsize=(16.5,5))
+    by = np.linspace(-3,0.5,10)
+    bx = np.linspace(0,180,10)
+
+    for i, survey in enumerate(['lattemdif', 'lattefid', 'lattehr']):
+        s = load_survey(survey)
+        
+        if i>0:
+            by = np.linspace(-4,0.5,10)
+        
+        facc, xe, ye, nb = scipy.stats.binned_statistic_2d(s.ltheta[s.halo], s.data['feh'][s.halo], s.data['dform'][s.halo], 
+                                                        statistic=accreted_fraction, bins=(bx, by))
+        
+        # set nans to the avg of the nearest finite pixels
+        facc_interp = pd.DataFrame(facc).interpolate(method='cubic', axis=1).values
+        facc_interp = pd.DataFrame(facc_interp).interpolate(method='cubic', axis=0).values
+        
+        xc = myutils.bincen(xe)
+        yc = myutils.bincen(ye)
+        oldgrid_x, oldgrid_y = np.meshgrid(xc, yc)
+        points = np.array([np.ravel(oldgrid_x), np.ravel(oldgrid_y)]).T
+        values = np.ravel(facc_interp)
+        
+        grid_x, grid_y = np.mgrid[0:180:1000j, -3:0.5:1000j]
+        grid_z = scipy.interpolate.griddata(points, values, (grid_x, grid_y), method='nearest')
+        
+        facc_smooth = filters.gaussian_filter(grid_z.T, 100)
+        
+        ratio = (xe[-1] - xe[0]) / (ye[-1] - ye[0])
+        
+        plt.sca(ax[i])
+        im = plt.imshow(facc_smooth.T, origin='lower', vmin=0, vmax=1, extent=(xe[0], xe[-1], ye[0], ye[-1]), aspect='auto', interpolation='gaussian', cmap='viridis')
+        
+        cs = plt.contour(facc_smooth.T, extent=(xe[0], xe[-1], ye[0], ye[-1]), levels=(0.1,0.5,0.9), colors='0.9')
+        
+        fmt = {}
+        for j, l in enumerate(cs.levels):
+            fmt[l] = '{:.0f}% accreted'.format(l*100)
+        labels = plt.clabel(cs, inline=True, fontsize='small', fmt=fmt, colors='w')
+
+        ax[i].set_xticks(np.arange(0,181,45))
+        plt.xlabel('$\\vec{L}$ orientation (deg)')
+        plt.ylabel('[Fe/H]')
+        plt.title(survey)
+
+        pos = ax[i].get_position()
+        print(i, pos)
+        if i==2:
+            cax = plt.axes([0.99, pos.y0, 0.02, pos.y1 - pos.y0])
+            plt.colorbar(im, cax=cax)
+            plt.ylabel('Accreted fraction')
+    
+    plt.tight_layout()
+    plt.savefig('../plots/comparison_latte_facc.pdf', bbox_inches='tight')
+
+def comp_latte_ages():
+    """"""
+    plt.close()
+    fig, ax = plt.subplots(1,3,figsize=(15,5))
+    Nb = 14
+    bx = np.linspace(0, 14, Nb)
+    bc = myutils.bincen(bx)
+    
+    for i, survey in enumerate(['lattemdif', 'lattefid', 'lattehr']):
+        latte = load_survey(survey)
+        plt.sca(ax[i])
+
+        dacc = 20
+        accreted = latte.data['dform']>dacc
+
+        indices = [latte.disk, latte.halo & ~accreted, latte.halo & accreted]
+        colors = [red, lblue, dblue]
+        labels = ['Disk', 'In situ halo', 'Accreted halo']
+
+        for j in range(3):
+            idx = np.digitize(latte.data['age'][indices[j]], bx)
+            rmed = np.array([np.median(latte.data['feh'][indices[j]][idx==k]) for k in range(Nb)])[1:]
+            rup = np.array([np.percentile(latte.data['feh'][indices[j]][idx==k], [84,]) if np.sum(idx==k) else np.nan for k in range(Nb)])[1:]
+            rdn = np.array([np.percentile(latte.data['feh'][indices[j]][idx==k], [16,]) if np.sum(idx==k) else np.nan for k in range(Nb)])[1:]
+
+            plt.fill_between(bc, rup, rdn, color=colors[j], alpha=0.7, label=labels[j])
+            
+        plt.ylim(-2.5,0.5)
+        plt.xlim(13.8,0)
+        plt.xlabel('Age (Gyr)')
+        plt.ylabel('[Fe/H]')
+        plt.legend(loc=4, fontsize='medium', frameon=False)
+        plt.title(survey)
+
+    plt.tight_layout(h_pad=0, w_pad=0)
+    plt.savefig('../plots/comparison_latte_ages.pdf', bbox_inches='tight')
