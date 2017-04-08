@@ -603,7 +603,7 @@ def toy_model(seed=205):
     ax[1].legend(hcorr, lcorr, frameon=False, loc=2, fontsize='small')
     
     plt.sca(ax[2])
-    plt.hist(theta[thalo & mock_halo], bins=bx, histtype='stepfilled', color=blue, alpha=0.8, lw=4, label='Isotropic toy halo', normed=True)
+    plt.hist(theta[thalo & mock_halo], bins=bx, histtype='stepfilled', color=blue, alpha=0.8, lw=4, label='Toy halo, isotropic', normed=True)
     
     finite = np.isfinite(raveon.data['feh'])
     mrich = raveon.data['feh']>-1
@@ -613,11 +613,11 @@ def toy_model(seed=205):
     
     plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color='0.9', lw=4, label='', normed=True)
     plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color=dblue, lw=2, label='', normed=True)
-    plt.plot([-1,0], [-10,-11], color=dblue, lw=2, alpha=1, label='Milky Way, metal-poor halo', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
+    plt.plot([-1,0], [-10,-11], color=dblue, lw=2, alpha=1, label='Milky Way halo, metal-poor', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
     
     plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color='0.9', lw=4, label='', normed=True)
     plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='', normed=True)
-    plt.plot([-1,0], [-10,-11], color=lblue, lw=2, alpha=1, label='Milky Way, metal-rich halo', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
+    plt.plot([-1,0], [-10,-11], color=lblue, lw=2, alpha=1, label='Milky Way halo, metal-rich', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
     
     #plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color='w', lw=4, label='', normed=True)
     #plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='Metal-rich MW halo', normed=True)
