@@ -51,7 +51,7 @@ We find similar properties in the Latte cosmological zoom-in simulation of a Mil
 In Latte, metal-rich halo stars formed primarily inside of the solar circle, while lower-metallicity halo stars preferentially formed at larger distances (extending beyond the virial radius).
 This suggests that metal-rich ``halo'' stars in the Solar neighborhood in fact formed in-situ within the Galactic disk and did not have a true ``halo'' origin.
 Their current presence in the Solar neighborhood indicates that significant radial migration/heating has occurred.
-Our results imply that stellar metallicity is a better indicator of origin than kinematics.
+Our results imply that stellar metallicity is a better indicator of origin than current kinematics.
 \end{abstract}
 % \keywords{Galaxy: halo --- Galaxy: structure --- cosmology: dark matter}
 \maketitle
@@ -91,16 +91,17 @@ Most recently, \citet{deason2017} measured a small rotation signal among the old
 
 Even though there is abundant evidence that both in-situ and accreted stars are present in the Milky Way halo, their contributions haven't been properly accounted for yet.
 A straightforward way to distinguish between these two origin scenarios would be to directly compare halo stars in the Milky Way to a simulated halo, where the origin of every star is known.
+% AW: typo or missing words below?
 This comparison is best done , but precise observations of halo stars that would allow that have so far been limited to a distance of a few hundred pc from the Sun -- a volume poorly resolved in hydrodynamical simulations.
 Fortunately, major improvements recently occurred on both accounts.
 Astrometric mission \emph{Gaia} \citep{perryman2001} has increased the available observed volume by an order of magnitude.
 Furthermore, \emph{Gaia} measurements are much more precise than previously available data, whose role in establishing the presence of a dual halo drew some criticism \citep{schonrich2011, schonrich2014}.
-On the theory side, \citet{wetzel2016} presented the highest resolution simulation of a Milky Way-sized galaxy. 
-We leverage the joint powers of the new \emph{Gaia} data set and a state-of-the-art Milky Way-like simulation to reveal the origin of the stellar halo in the Solar neighborhood.
+On the theory side, \citet{wetzel2016} recently presented the Latte high-resolution cosmological zoom-in simulation of a Milky Way-mass galaxy.
+We leverage the joint powers of the new \emph{Gaia} data set and the Latte simulation to reveal the origin of the stellar halo in the Solar neighborhood.
 
 This paper is organized as follows: we start by introducing our observational data that combine the first year of \emph{Gaia} astrometry with ground-based radial velocity measurements in \S\ref{sec:data}.
 Once we've produced a data set that has 6D information for stars in the Solar neighborhood, we split the sample into a disk and a halo component in \S\ref{sec:halostars} and analyze their chemical abundances and orbital properties.
-We interpret these observations in terms of a simple toy model, as well as using a cosmological, hydrodynamical simulation of a Milky Way-like galaxy in \S\ref{sec:origin}, where we also propose a formation scenario for kinematically-selected halo stars close to the Sun.
+We interpret these observations in terms of a simple toy model, as well as using the Latte cosmological hydrodynamic simulation of a Milky Way-like galaxy in \S\ref{sec:origin}, where we also propose a formation scenario for kinematically selected halo stars close to the Sun.
 Section \S\ref{sec:discussion} discusses broader implications of our findings, which are summarized in \S\ref{sec:summary}.
 
 
@@ -366,11 +367,17 @@ Next, we analyze the origin of such a population.
 \subsection{The Latte simulation}
 \label{sec:latte}
 %Numerical simulations have long been used to interpret the observed properties of galaxies and uncover the underlying physical mechanisms governing their evolution.
-In $\Lambda$CDM cosmology, stellar halos are naturally produced by disruption of the accreted satellite galaxies \citep[e.g.,][]{bj2005, johnston2008}, although more realistic simulations have shown that some halo stars can be formed in situ, especially in the inner parts of the galaxy \citep[e.g.,][]{zolotov2009}.
-The resolution of the current generation of hydrodynamical simulations now allows for an almost direct comparison between individual stars observed in the Milky Way and simulated star particles.
-In this section, we examine a cosmological zoom-in baryonic simulation of a Milky Way-like galaxy -- the Latte simulation -- from \citet{wetzel2016}, with the goal of understanding the origin of halo stars in the Solar neighborhood.
+In $\Lambda$CDM cosmology, stellar halos are naturally produced by disruption of the accreted satellite galaxies \citep[e.g.,][]{bj2005, johnston2008}, although more realistic simulations have shown that some halo stars can form in situ, especially in the inner parts of the galaxy \citep[e.g.,][]{zolotov2009}.
+The resolution of the current generation of hydrodynamic simulations now allows for an almost direct comparison between individual stars observed in the Milky Way and simulated star particles.
+In this section, we examine a cosmological zoom-in simulation of a Milky Way-like galaxy -- the Latte simulation -- with the goal of understanding the origin of halo stars in the Solar neighborhood.
 
-The Latte simulation, first presented in \citet{wetzel2016}, is a simulation from the Feedback In Realistic Environments (FIRE)\footnote{The FIRE project website is \url{http://fire.northwestern.edu}} project \citep{hopkins2014FIRE}. Latte is fully cosmological, with the highest mass ($7000 \,M_{\sun}$) and spatial (1\,pc) resolution yet achieved for a cosmological simulation of a Milky Way-mass galaxy to $z = 0$. The simulation uses the standard FIRE-2 implementation of gas cooling, star formation, and stellar feedback as described in \citet{hopkins2017}, including the numerical terms for turbulent diffusion of metals as described therein, and the GIZMO code \citep{hopkins2015}. FIRE simulations have been used to study galaxies from ultra-faint dwarf galaxies \citep{wheeler2015} to small groups of galaxies \citep{feldmann2016}; previous studies have shown that FIRE simulations successfully reproduce observed internal properties of dwarf galaxies \citep{chan:fire.dwarf.cusps, elbadry2016}, thin/thick disk structure and both radial and vertical disk metallicity gradients in a Milky Way-like galaxy \citep{ma2016}, star-formation histories of dwarf and massive galaxies \citep{hopkins2014, sparre:sfmainsequence}, global galaxy scaling relations \citep{hopkins2014, ma:mass.metallicity, feldmann2016}, and satellite populations around Milky Way-mass galaxies \citep{wetzel2016}.
+The Latte simulation, first presented in \citet{wetzel2016}, is a simulation from the Feedback In Realistic Environments (FIRE)\footnote{The FIRE project website is \url{http://fire.northwestern.edu}} project \citep{hopkins2014FIRE}. Latte is fully cosmological, with baryonic mass resolution of $7000 \,M_{\sun}$ and spatial softening/smoothing of $1\,pc$ for gas and $4\,pc$ for stars.
+%with the highest mass ($7000 \,M_{\sun}$) and spatial (1\,pc) resolution yet achieved for a cosmological simulation of a Milky Way-mass galaxy to $z = 0$.
+The simulation uses the standard FIRE-2 implementation of gas cooling, star formation, stellar feedback, and metal enrichment as described in \citet{hopkins2017}, including the numerical terms for turbulent diffusion of metals in gas as described therein\footnote{
+The original simulation presented in \citet{wetzel2016} did not include terms for turbulent metal diffusion.
+Here, we analyze a re-siumulation that includes those terms (all other parameters unchanged), which creates a more realistic distribution of metals in both the host galaxy (Wetzel et al., in prep.) and its satellites (Escala et al., in prep.).
+As explored in \citet{Su2016} and \citet{hopkins2017}, the inclusion of turbulent metal diffusion has no systematic effect in any gross galaxy properties (including the average metallicity), as we also checked for all analyses in this paper.
+}, and the GIZMO code \citep{hopkins2015}. FIRE simulations have been used to study galaxies from ultra-faint dwarf galaxies \citep{wheeler2015} to small groups of galaxies \citep{feldmann2016}; FIRE simulations successfully reproduce observed internal properties of dwarf galaxies \citep{chan:fire.dwarf.cusps, elbadry2016}, thin/thick disk structure and both radial and vertical disk metallicity gradients in a Milky Way-like galaxy \citep{ma2016}, star-formation histories of dwarf and massive galaxies \citep{hopkins2014, sparre:sfmainsequence}, global galaxy scaling relations \citep{hopkins2014, ma:mass.metallicity, feldmann2016}, and satellite populations around Milky Way-mass galaxies \citep{wetzel2016}.
 
 To construct a sample of star particles in Latte analogous to the TGAS--RAVE-on sample, we first aligned the simulation coordinate system with the disk, and then selected stars in a 3\;kpc sphere located at a distance of 8.3\;kpc from the center of the galaxy.
 We classified star particles as either disk or halo using a kinematic cut in the Toomre diagram similar to the one employed for stars in the Milky Way (\S\ref{sec:sample}).
@@ -582,7 +589,7 @@ The halo was defined by requiring a relative velocity with respect to the Local 
 Metal-poor stars, $\rm[Fe/H]<-1$, typically identified as the inner halo, comprise approximately a half of this kinematically defined halo sample.
 The other half of the sample are metal-rich stars ($\rm[Fe/H]>-1$), whose both metallicity and $\alpha$-element abundances are traditionally associated with the disk population.
 We built a toy model of the Solar neighborhood to show that orbits of the metal-poor halo stars are isotropically distributed, while the metal-rich halo is preferentially aligned with the Galactic disk.
-To uncover the origin of these two halo components, we performed an identical analysis on a sample of stars selected in a Solar-like neighborhood of a hydrodynamical, cosmological simulation Latte.
+To uncover the origin of these two halo components, we performed an identical analysis on a sample of stars selected in a Solar-like neighborhood of the Latte cosmological hydrodynamic simulation.
 A significant fraction of the simulated halo stars are also metal-rich and on prograde orbits with respect to the disk, and most of them were formed in situ in the main galaxy.
 In general, we found that the origin of halo stars is well correlated with stellar metallicity, with metal-poor stars having been accreted, and metal-rich having formed in situ, and has little dependence on their kinematics.
 Additionally, the majority of metal-rich halo stars in Latte were formed in the inner galaxy, and migrated several kpc outwards, indicating that radial redistribution actively operates in Milky Way-like galaxies.
