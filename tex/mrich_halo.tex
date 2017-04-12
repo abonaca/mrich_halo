@@ -18,7 +18,8 @@
 % \title{A Local In-Situ Stellar Halo Revealed by Gaia}
 % \title{In-Situ Stellar Halo in the Solar Neighborhood Revealed by Gaia}
 % \title{Gaia Reveals an In-Situ Component of the Stellar Halo in the Solar Neighborhood}
-\title{Gaia reveals a metal-rich component of the local stellar halo that predominantly formed in-situ}
+% \title{Gaia reveals a metal-rich component of the local stellar halo that predominantly formed in-situ}
+\title{Gaia reveals a metal-rich in-situ component of the local stellar halo}
 % \journalinfo{The Astrophysical Journal, submitted}
 \author{Ana Bonaca\altaffilmark{1}$^\dagger$}\thanks{$^\dagger$ ITC Fellow}
 \author{Charlie Conroy\altaffilmark{1}}
@@ -34,22 +35,13 @@
 \altaffiltext{5}{Department of Physics, Center for Astrophysics and Space Sciences, University of California at San Diego, La Jolla, CA, USA}
 
 \begin{abstract}
-% original
-%We use the first Gaia data release, combined with the ground-based spectroscopic surveys, to search for the origin of kinematically identified halo stars in the Solar neighborhood.
-%Halo stars, moving at least 220\;km/s with respect to the local standard of rest, are in general more metal-poor than the disk, but surprisingly, half of our halo sample is comprised of stars with $\rm[Fe/H]>-1$.
-%The orbital directions of these metal-rich halo stars are preferentially aligned with the disk rotation, in sharp contrast with the isotropic orbital distribution of the more metal-poor halo stars.
-%Similar properties are observed for stars in the Latte simulation of a Milky Way-like galaxy. In Latte, all of the metal-rich halo stars were formed inside of the solar circle, while the lower metallicity halo has a progressively larger fraction of stars with a more distant origin, out to the virial radius.
-%This suggests that we have identified a true in situ halo component in the metal-rich halo stars.
-%Furthermore, their presence in the Solar neighborhood indicates that radial migration has occurred in the Galactic disk.
-
-% andrew's + phil's modifications
-We use the first \emph{Gaia} data release, combined with the ground-based spectroscopic surveys, to search for the origin of halo stars in the Solar neighborhood.
-We identify halo stars kinematically, as moving at least 220\;km/s with respect to the local standard of rest.
+We use the first \emph{Gaia} data release, combined with ground-based spectroscopic surveys, to investigate the origin of halo stars in the Solar neighborhood.
+We identify halo stars kinematically, as moving with a relative speed of at least 220\;km/s with respect to the local standard of rest.
 These stars are in general more metal-poor than the disk, but surprisingly, half of our halo sample is comprised of stars with $\rm[Fe/H]>-1$.
 The orbital directions of these metal-rich halo stars are preferentially aligned with the disk rotation, in sharp contrast with the isotropic orbital distribution of the more metal-poor halo stars.
 We find similar properties in the Latte cosmological zoom-in simulation of a Milky Way-like galaxy from the FIRE project.
 In Latte, metal-rich halo stars formed primarily inside of the solar circle, while lower-metallicity halo stars preferentially formed at larger distances (extending beyond the virial radius).
-This suggests that metal-rich ``halo'' stars in the Solar neighborhood in fact formed in-situ within the Galactic disk and did not have a true ``halo'' origin.
+This suggests that metal-rich halo stars in the Solar neighborhood in fact formed in-situ within the Galactic disk rather than having been accreted from satellite systems.
 Their current presence in the Solar neighborhood indicates that significant radial migration/heating has occurred.
 Our results imply that stellar metallicity is a better indicator of origin than current kinematics.
 \end{abstract}
@@ -58,7 +50,7 @@ Our results imply that stellar metallicity is a better indicator of origin than 
 
 \section{Introduction}
 Stellar halos host some of galaxies' oldest stars \citep{beers2005}, offering a pristine window into an era that is challenging to observe directly \citep{jwst}.
-In the prevalent cosmology, galaxies grow hierarchically by accreting smaller structure \citep{white1978, diemand2008, springel2008, klypin2011}, and the archeological record of these galactic building blocks is especially well retained in the stellar halos.
+In the prevalent cosmology, galaxies grow hierarchically by accreting smaller structure \citep{white1978, diemand2008, springel2008, klypin2011}, and the archeological record of these galactic building blocks is especially well retained in the stellar halos, in part because of their long relaxation times.
 Upon accretion, smaller galaxies completely disrupt within several orbital periods \citep{helmi1999b}, and become a part of the smooth halo.
 Still, global halo properties contain information on the original systems.
 For example, the total mass of a halo is related to the number of massive accretion events \citep{bj2005, cooper2010}, the outer slope of the outer halo density profile increases with the current accretion rate \citep{diemer2014}, while the presence of a break in the density profile is indicative of a quiet merger history at late times \citep{deason2013}.
@@ -82,8 +74,8 @@ For example, \citet{bell2008} measured that the spatial distribution of halo sta
 Expanding this approach to clustering in the space of both positions and radial velocities, \citet{janesh2016} found that the amount of halo structure grows with distance from the Galactic center.
 However, phase-space substructure associated with mergers has been discovered even in the Solar neighborhood \citep{helmi1999,smith2009,helmi2017}.
 
-While there are multiple avenues of identifying accreted stars in a halo, isolating an in-situ component has been more challenging.
-Early observations of globular clusters and individual stars have indicated that the inner halo is more metal-rich, has a metallicity gradient, and is slightly prograde, while objects in the outer halo are more metal-poor and retrograde with respect to the Galactic disk \citep[e.g.,][]{sz}.
+While there are multiple avenues for identifying accreted stars in a halo, isolating an in-situ component has been more challenging.
+Early observations of globular clusters and individual stars indicated that the inner halo is more metal-rich, has a metallicity gradient, and is slightly prograde, while objects in the outer halo are more metal-poor and retrograde with respect to the Galactic disk \citep[e.g.,][]{sz}.
 This has been interpreted as evidence that the inner halo is formed in situ, while the outer halo is accreted.
 With the advent of wide-field sky surveys, these findings of a dual stellar halo have been confirmed using much larger samples of halo stars \citep{carollo2007, carollo2010, beers2012}.
 Adding further evidence for a presence of an in-situ component, \citet{schlaufman2012} ruled out accretion as the main origin of stars in the inner halo due to their lack of spatial coherence with metallicity.
@@ -92,9 +84,9 @@ Most recently, \citet{deason2017} measured a small rotation signal among the old
 Even though there is abundant evidence that both in-situ and accreted stars are present in the Milky Way halo, their contributions haven't been properly accounted for yet.
 A straightforward way to distinguish between these two origin scenarios would be to directly compare halo stars in the Milky Way to a simulated halo, where the origin of every star is known.
 % AW: typo or missing words below?
-This comparison is best done , but precise observations of halo stars that would allow that have so far been limited to a distance of a few hundred pc from the Sun -- a volume poorly resolved in hydrodynamical simulations.
-Fortunately, major improvements recently occurred on both accounts.
-Astrometric mission \emph{Gaia} \citep{perryman2001} has increased the available observed volume by an order of magnitude.
+This comparison is most easily performed by matching stars on their orbital properties, but precise observations of halo stars that would allow such a match have so far been limited to a distance of a few hundred pc from the Sun -- a volume poorly resolved in hydrodynamical simulations.
+Fortunately, major improvements recently occurred on both the observational and theoretical fronts.
+The \emph{Gaia} mission \citep{perryman2001} has increased the available observed volume by an order of magnitude.
 Furthermore, \emph{Gaia} measurements are much more precise than previously available data, whose role in establishing the presence of a dual halo drew some criticism \citep{schonrich2011, schonrich2014}.
 On the theory side, \citet{wetzel2016} recently presented the Latte high-resolution cosmological zoom-in simulation of a Milky Way-mass galaxy.
 We leverage the joint powers of the new \emph{Gaia} data set and the Latte simulation to reveal the origin of the stellar halo in the Solar neighborhood.
@@ -108,7 +100,7 @@ Section \S\ref{sec:discussion} discusses broader implications of our findings, w
 \begin{figure*}
 \begin{center}
 \includegraphics[width=\textwidth]{../plots/paper/toomre.pdf}
-\caption{(Left) Toomre diagram of stars in the Solar neighborhood, from a combined catalog of \emph{Gaia}--TGAS proper motions and parallaxes, and RAVE-on radial velocities, thus covering the full 6-D phase space.
+\caption{(Left) Toomre diagram of stars in the Solar neighborhood, from a combined catalog of \emph{Gaia}--TGAS proper motions and parallaxes, and RAVE-on radial velocities, thus covering the full 6D phase space.
 We kinematically divide the sample into a disk and a halo component.
 The halo stars are defined as having $|V-V_{LSR}|>220$\,km/s, and the dividing line is shown in black.
 (Right) Positions of TGAS--RAVE-on stars with a measured metallicity in the Toomre diagram.
@@ -121,8 +113,8 @@ Interestingly, many halo stars are metal-rich, with $\rm[Fe/H]>-1$.}
 
 \section{Data}
 \label{sec:data}
-Studying orbital properties in a sample of stars requires the knowledge of their positions in a 6-D phase space.
-Currently, \emph{Gaia} Data Release 1 (DR1) provides the largest and most precise 5-D dataset for stars in the Solar neighborhood, which we describe in \S\ref{gaia}.
+Studying orbital properties in a sample of stars requires the knowledge of their positions in a 6D phase space.
+Currently, \emph{Gaia} Data Release 1 (DR1) provides the largest and most precise 5D dataset for stars in the Solar neighborhood, which we describe in \S\ref{gaia}.
 We complement this data with radial velocities from ground-based spectroscopic surveys whose targets overlap with \emph{Gaia} (\S\ref{rvsurveys}).
 Finally, we describe our sample selection in \S\ref{sample}.
 
@@ -130,8 +122,8 @@ Finally, we describe our sample selection in \S\ref{sample}.
 \label{gaia}
 \emph{Gaia} is the astrometric mission that will map the Galaxy over the next several years \citep{perryman2001}.
 The first data from the mission was released in September 2016, and contains not only positions of all \emph{Gaia} sources ($G<20$), but also positions, parallaxes and proper motions for $\sim$2~million of the brightest stars in the sky \citep{gaiadr1, gaiamission}.
-Obtaining the 5-D info after just a year of \emph{Gaia}'s operation was possible by referencing the positions measured with Hipparcos \citep{michalik2015}.
-The faintest stars observed by Hipparcos \citep{hipparcos, vleeuwen2007} and released as a part of Tycho~II catalog have $V\sim12$ \citep{hog2000}, which limits the size of the 5-D sample in \emph{Gaia} DR1 to $\approx2$ million stars.
+Obtaining the 5D info after just a year of \emph{Gaia}'s operation was possible by referencing the positions measured with Hipparcos \citep{michalik2015}.
+The faintest stars observed by Hipparcos \citep{hipparcos, vleeuwen2007} and released as a part of Tycho~II catalog have $V\sim12$ \citep{hog2000}, which limits the size of the 5D sample in \emph{Gaia} DR1 to $\approx2$ million stars.
 The joint solution, known as Tycho--Gaia Astrometric Solution \citep[TGAS,][]{gaiaastrometry} is comparable in attained proper motions and parallaxes to the Hipparcos precision (typical uncertainty in positions and parallaxes is 0.3\;mas and 1\;mas/yr in proper motions), but already on a sample that is more than an order of magnitude larger, making TGAS an unrivaled dataset for precision exploration of the Galactic phase space.
 
 \subsection{Spectroscopic surveys}
@@ -157,7 +149,7 @@ APOGEE and RAVE have different footprints, targeting strategy, and the wavelengt
 
 \subsection{Sample selection}
 \label{sample}
-After matching Gaia--TGAS to the spectroscopic surveys, we increase the precision of the sample by excluding stars with large observational uncertainties.
+After matching Gaia--TGAS to the spectroscopic surveys, we increase the quality of the sample by excluding stars with large observational uncertainties.
 However, the overlap between TGAS and spectroscopic surveys is limited, and the number density of halo stars in the Solar neighborhood is low.
 To ensure that we have a sizeable halo sample, we chose to use very generous cuts on observational uncertainties and propagate them when interpreting our results, rather than restricting our sample size by more stringent cuts.
 In particular, we included stars with radial velocity uncertainties smaller than 20\,km/s, and relative errors in proper motions and parallaxes smaller than 1.
@@ -175,12 +167,12 @@ Thus, focusing on kinematic properties of the sample will result in robust concl
 \label{sec:halostars}
 We analyzed properties of halo stars in a sample of bright, $V\lesssim12$, stars within 3\;kpc from the Sun, that have positions, proper motions and parallaxes in the TGAS catalog, and radial velocities from either RAVE or APOGEE.
 This sample, though spatially incomplete due to survey selection functions, is kinematically unbiased.
-Thus, we define halo kinematically in \S~\ref{sec:sample}, and present its chemical and orbital properties in \S~\ref{sec:chem} and \S~\ref{sec:l}, respectively.
+We define a kinematically-selected halo in \S~\ref{sec:sample}, and present its chemical and orbital properties in \S~\ref{sec:chem} and \S~\ref{sec:l}, respectively.
 
 \subsection{Defining a local sample of halo stars}
 \label{sec:sample}
-Access to the full 6-D phase space information allows us to calculate Galactocentric velocities for all of the stars in the sample.
-We summarize the kinematic properties of the sample with a Toomre diagram (Figure~\ref{fig:toomre}), where the Galactocentric $Y$ component on the velocity vector, $V_Y$, is on the x axis, while the perpendicular Toomre component, $\sqrt{V_X^2+V_Z^2}$, is on the y axis. 
+Access to the full 6D phase space information allows us to calculate Galactocentric velocities for all of the stars in the sample.
+We summarize the kinematic properties of the sample with a Toomre diagram (Figure~\ref{fig:toomre}), where the Galactocentric $Y$ component on the velocity vector, $V_Y$ (which points in the direction of the disk rotation), is on the x axis, while the perpendicular Toomre component, $\sqrt{V_X^2+V_Z^2}$, is on the y axis. 
 This space has been widely used to identify major components of the Galaxy: the thin and thick disks, and the halo \citep[e.g.,][]{venn2004}.
 Disk stars dominate a large overdensity at $V_Y\approx220$\;km/s, which corresponds to the circular velocity of the Local Standard of Rest (LSR, $V_{LSR}$).
 The density of stars (left panel of Figure~\ref{fig:toomre}) decreases smoothly for velocities progressively more different from $V_{LSR}$, extending all the way to retrograde orbits ($V_Y<0$).
@@ -192,18 +184,18 @@ For example, \citet{sb2009} have shown that the velocity distribution of a Galac
 A higher velocity cut ensures that the contamination of our halo sample with thick disk stars is minimized.
 In total, we identified 1,376 halo and 157,976 disk stars, with the halo constituting $\sim1\%$ of our sample.
 This is in line with the expectations from number count studies in large-scale surveys \citep[e.g.,][]{juric2008}, although we do not expect an exact match, as TGAS is not volume complete.
-
-The signal-to-noise ratio of 142,086 RAVE-on spectra was high enough to allow a measurement of metallicity [Fe/H].
-Alpha-element abundances, [$\alpha$/Fe], were obtained for a subset of 56,259 stars.
-Right panel of Figure~\ref{fig:toomre} shows the average metallicity in densely populated velocity bins of the Toomre diagram, while the points in the lower density regions are individually colored-coded by [Fe/H].
-As expected, the halo is more metal poor than the disk \citep[e.g.,][]{ivezic2008}.
-Within the disk itself, there is a smooth decrease in metallicity further from the VLSR, starting from [Fe/H]$\sim0$ in the thin disk region, $(V_Y, V_{XZ})=(220,0)$\;km/s, to [Fe/H]$\sim-0.5$ in the thick disk region, $(V_Y, V_{XZ})=(100,100)$\;km/s.
-Surprisingly, however, there are many stars with thick disk-like metallicities found in the halo region of the Toomre diagram, and some of them are on very retrograde orbits.
 In the following sections we explore the chemical composition (\S\ref{sec:chem}) and orbital properties of these stars (\S\ref{sec:l}).
 
 \subsection{Chemical composition}
 \label{sec:chem}
 In this section we study the chemical composition of the Solar neighborhood stars observed by both Gaia--TGAS and RAVE.
+The signal-to-noise ratio of 142,086 RAVE-on spectra was high enough to allow a measurement of metallicity [Fe/H].
+Alpha-element abundances, [$\alpha$/Fe], were obtained for a subset of 56,259 stars.
+Right panel of Figure~\ref{fig:toomre} shows the average metallicity in densely populated velocity bins of the Toomre diagram, while the points in the lower density regions are individually colored-coded by $\rm[Fe/H]$.
+As expected, the halo is more metal poor than the disk \citep[e.g.,][]{ivezic2008}.
+Within the disk itself, there is a smooth decrease in metallicity further from the VLSR, starting from [Fe/H]$\sim0$ in the thin disk region, $(V_Y, V_{XZ})=(220,0)$\;km/s, to $\rm[Fe/H]\sim-0.5$ in the thick disk region, $(V_Y, V_{XZ})=(100,100)$\;km/s.
+Surprisingly, however, there are many stars with thick disk-like metallicities found in the halo region of the Toomre diagram, and some of them are on very retrograde orbits.
+
 Figure~\ref{fig:mdf} (top) shows the metallicity distribution for the two kinematic components identified above: the disk in red and the halo in blue.
 The disk is more metal rich than the halo, and peaks at the approximately solar metallicity, $\rm[Fe/H]=0$.
 The halo is more metal poor, and exhibits a peak at $\rm[Fe/H]\sim-1.6$, typical of the inner halo \citep[e.g.,][]{allende-prieto2006}.
@@ -250,7 +242,7 @@ However, the RAVE-on abundances are fairly uncertain (typical uncertainty is $\s
 In the APOGEE sample, where the typical uncertainty is smaller, $\sim0.03$\;dex, the number of halo stars is too small to unambiguously identify multiple $[\alpha/\rm Fe]$ sequences.
 
 The evidence presented so far shows that the stellar halo in the Solar neighborhood has a metal-poor and a metal-rich component.
-Given how the metal-rich component follows the abundance pattern of the disk, we discuss the possible contamination by the thick disk in Appendix~\ref{sec:tdcontamination}, and rule out the possibility that the whole of the metal-rich halo is attributable to the canonical thick disk.
+Given that the metal-rich component follows the abundance pattern of the disk, we discuss the possible contamination by the thick disk in Appendix~\ref{sec:tdcontamination}, and rule out the possibility that a sizeable fraction of the metal-rich halo is attributable to the canonical thick disk.
 In the next section, we proceed to characterize the orbital properties of the two halo components.
 
 \begin{figure}
@@ -267,7 +259,7 @@ There is an excess of metal-rich halo stars on prograde orbits, $\theta_L>90^\ci
 \label{sec:l}
 Stellar orbits can be classified in terms of their integrals of motion, however, calculating these requires the knowledge of the underlying gravitational potential \citep{bt2008}.
 Furthermore, in a realistic Galactic environment, some stars are on chaotic orbits \citep[e.g.,][]{price-whelan2016}, where the integrals of motion do not exist.
-On the other hand, any star with a measured position in a 6-D phase space has a well defined angular momentum.
+On the other hand, any star with a measured position in a 6D phase space has a well defined angular momentum.
 In this section we use angular momenta as empirical diagnostics of stellar orbits, and focus in particular on the orientation of the angular momentum vector with respect to the Galactocentric $Z$ axis, quantified by the angle
 \begin{equation}
 \theta_L \equiv \arctan(L_Z/|\vec{L}|)
@@ -319,11 +311,11 @@ For the remaining disk stars, we vary the ratio of thin to thick disk stars to b
 Once the number of stars in each component had been determined, we proceeded to assign them their phase space coordinates.
 Our sample is spatially confined to within only several kpc from the Sun, so we see no differences in spatial distributions of the kinematically defined components from section \S\ref{sample}.
 This allowed us to take the spatial distribution of stars in our sample, and randomly designate them a component in the toy model, thus ensuring that the spatial selection function of both TGAS and RAVE-on is properly reproduced in the model.
-For each star in the model, we drew a 3-D velocity from its component's velocity ellipsoid measured by \citet{bensby2003} on a smaller sample of local stars with Hipparcos parallaxes and proper motions, and which accounts for the asymmetric drift.
+For each star in the model, we drew a 3D velocity from its component's velocity ellipsoid measured by \citet{bensby2003} on a smaller sample of local stars with Hipparcos parallaxes and proper motions, and which accounts for the asymmetric drift.
 With positions and velocities in place, we calculated the angular momenta and their orientation angles with respect to the $Z$ axis, $\theta_L$, for all stars in the toy model.
 
 The properties of our toy model are summarized in Figure~\ref{fig:toy}.
-Top panel shows the components of the model in the Toomre diagram, with the disk stars in red, halo stars in blue, and the black line delineating our kinematic boundary between the halo and the disk.
+The top panel shows the components of the model in the Toomre diagram, with the disk stars in red, halo stars in blue, and the black line delineating our kinematic boundary between the halo and the disk.
 The velocity ellipsoids of these components overlap, so our kinematic definition of a halo produces a sample which is likely neither pure, nor complete.
 This is illustrated in the toy model by several thick disk stars that enter the halo selection box at $(V_Y, V_{XZ}) \simeq (100,200)$\;km/s, and also halo stars on prograde orbits, which fall outside of the halo selection.
 As no simple kinematic cut will completely separate the different components, we opted to emphasize the purity of our halo sample.
@@ -349,7 +341,7 @@ As expected, the majority of disk stars are moving in the disk plane, and the di
 The nearly isotropic halo of the \citet{bensby2003} model has a flat distribution in $\theta_L$.
 The sum of the two components is represented with a thick black line, which compares favorably to the distribution of $\theta_L$ observed in the Milky Way, and shown in dashed gray.
 The agreement between the toy model and the Milky Way is particularly good at very prograde and very retrograde orbits.
-The abundance of stars on only slightly prograde orbits ($\theta_L\approx100^\circ$) is somewhat underestimated in the toy model, indicating that the transition between a disk and a halo component in the Milky Way is more gradual than what can be reproduced by a simple model featuring only two disks and an isotropic halo. %captured
+The abundance of stars on only slightly prograde orbits ($\theta_L\approx100^\circ$) is somewhat underestimated in the toy model, indicating that the transition between a disk and a halo component in the Milky Way is more gradual than what can be reproduced by a simple model featuring only two disks and an isotropic halo.
 
 The bottom panel of Figure~\ref{fig:toy} compares the modeled halo and the observed one.
 For a fair comparison, in this panel we only consider model stars that would satisfy our kinematic halo selection, which are a combination of some disk and the majority of halo stars, as discussed above.
@@ -357,12 +349,12 @@ The distribution of $\theta_L$ for this kinematically-selected halo stars from a
 While the intrinsic distribution of an isotropic halo is flat (middle panel), kinematic selection introduces a suppression at the most prograde orbits (right panel).
 Kinematic selection excludes halo stars with $|V-V_{LSR}|\leq220$\;km/s, all of which are on prograde orbits, which is manifested as a depression at $\theta_L\gtrsim90^\circ$.
 The magnitude of this depression exactly matches the distribution of metal-poor halo stars in the Milky Way, overplotted with a dark blue line in the right panel of Figure~\ref{fig:toy}.
-This suggests that the metal-poor halo in the Solar neighborhood is intrinsically isotropic, and that all stars more metal-poor than $\rm[Fe/H]\leq-1$ are likely a part of the metal-poor halo, even if they are kinematically consistent with the disk.
+This suggests that the metal-poor halo in the Solar neighborhood is intrinsically isotropic, and that at least some stars more metal-poor than $\rm[Fe/H]\leq-1$, which are kinematically consistent with the disk, are in fact a part of the metal-poor halo.
 The distribution of metal-rich halo stars in the Milky Way, shown as light blue line in the bottom panel of Figure~\ref{fig:toy}, shows the opposite behavior of an excess at prograde orbits and is significantly different from the toy model prediction for an isotropic halo.
 
-A simple toy model successfully explains bulk properties of our sample: most of the stars are in a rotating disk, with a minority in an isotropic halo, which maps well to the metal-poor halo stars identified in our TGAS--RAVE-on sample.
-It also points out that the metal-rich halo stars appear to be in a transitional stage between the prograde disk, and the isotropic halo distribution.
-Next, we analyze the origin of such a population.
+A simple toy model successfully explains the bulk properties of our sample: most of the stars are in a rotating disk, with a minority in an isotropic halo, which maps well to the metal-poor halo stars identified in our TGAS--RAVE-on sample.
+This toy model also points out that the metal-rich halo stars are inconsistent with either of its components.
+Next, we analyze the origin of such a population using a hydrodynamical simulation.
 
 \subsection{The Latte simulation}
 \label{sec:latte}
@@ -375,7 +367,7 @@ The Latte simulation, first presented in \citet{wetzel2016}, is a simulation fro
 %with the highest mass ($7000 \,M_{\sun}$) and spatial (1\,pc) resolution yet achieved for a cosmological simulation of a Milky Way-mass galaxy to $z = 0$.
 The simulation uses the standard FIRE-2 implementation of gas cooling, star formation, stellar feedback, and metal enrichment as described in \citet{hopkins2017}, including the numerical terms for turbulent diffusion of metals in gas as described therein\footnote{
 The original simulation presented in \citet{wetzel2016} did not include terms for turbulent metal diffusion.
-Here, we analyze a re-siumulation that includes those terms (all other parameters unchanged), which creates a more realistic distribution of metals in both the host galaxy (Wetzel et al., in prep.) and its satellites (Escala et al., in prep.).
+Here, we analyze a re-siumulation that includes those terms (all other parameters unchanged), which creates a more realistic metallicity distribution function in both the host galaxy (Wetzel et al., in prep.) and its satellites (Escala et al., in prep.).
 As explored in \citet{Su2016} and \citet{hopkins2017}, the inclusion of turbulent metal diffusion has no systematic effect in any gross galaxy properties (including the average metallicity), as we also checked for all analyses in this paper.
 }, and the GIZMO code \citep{hopkins2015}. FIRE simulations have been used to study galaxies from ultra-faint dwarf galaxies \citep{wheeler2015} to small groups of galaxies \citep{feldmann2016}; FIRE simulations successfully reproduce observed internal properties of dwarf galaxies \citep{chan:fire.dwarf.cusps, elbadry2016}, thin/thick disk structure and both radial and vertical disk metallicity gradients in a Milky Way-like galaxy \citep{ma2016}, star-formation histories of dwarf and massive galaxies \citep{hopkins2014, sparre:sfmainsequence}, global galaxy scaling relations \citep{hopkins2014, ma:mass.metallicity, feldmann2016}, and satellite populations around Milky Way-mass galaxies \citep{wetzel2016}.
 
@@ -394,7 +386,7 @@ For a more quantitative analysis, we show metallicity distribution of Latte's di
 To facilitate comparison, we also include metallicity distributions of the Milky Way components as empty histograms.
 The Latte halo is more metal poor than its disk, and although there is no bimodality in the halo metallicity, the whole distribution is as wide as observed in the Milky Way, extending from [Fe/H]$\lesssim-2$ to [Fe/H]$\simeq0$.
 This agreement, in addition to $\rm[\alpha/Fe]$ abundance trends recovered in simulated disks (Wetzel et al., in prep), demonstrate that the physics included in the FIRE simulations captures the most important ingredients for chemical evolution in galaxies.
-Same as in the Milky Way sample, we proceed to divide the Latte halo into a metal-rich, [Fe/H]$>-1$, and a metal-poor, [Fe/H]$\leq-1$, component.
+Following our analysis of the Milky Way sample, we proceed to divide the Latte halo into a metal-rich, [Fe/H]$>-1$, and a metal-poor, [Fe/H]$\leq-1$, component.
 The ratio of metal-rich to metal-poor halo stars in Latte is not quite the same as in the Milky Way, but this does not seriously impede our goal of qualitatively understanding differences between the two populations.
 
 Finally, we analyze orbital properties of stars in Latte by showing the orientation of their angular momenta with respect to the $Z$ axis, $\theta_L$, as solid histograms in the bottom panel of Figure~\ref{fig:latte}.
@@ -439,7 +431,7 @@ This is in line with findings of \citet{zolotov2009}, who showed that late-time 
 
 In summary, Latte stars born at late times formed in the disk, while old stars in Latte are predominantly part of the halo.
 One third of the halo in the solar neighborhood was accreted from the infalling satellites, while the majority of stars formed in situ in the inner galaxy and migrated to the solar circle.
-In this simplified depiction for the origin of the stellar halo, we do not account for the possibility that stars that formed within 20\;kpc still could have been bound to a satellite galaxy, and hence accreted, nor do we distinguish between different modes of in-situ halo formation (e.g., through a dissipative collapse; \citealt{samland2003}, or with stars being heated from the disk; \citealt{purcell2010}).
+In this simplified depiction for the origin of the stellar halo, we do not account for the unlikely possibility that stars that formed within 20\;kpc still could have been bound to a satellite galaxy, and hence accreted, nor do we distinguish between different modes of in-situ halo formation (e.g., through a dissipative collapse; \citealt{samland2003}, or with stars being heated from the disk; \citealt{purcell2010}).
 These are not serious shortcomings, because satellites that entered the inner 20\;kpc were disrupted soon thereafter, so any newly-formed stars would have been only loosely bound to the satellite at the time.
 Furthermore, given that the median formation distance of the in-situ halo is $\sim4$\;kpc, we expect that dissipative collapse only marginally contributes to the census of halo stars at the solar circle, but ultimately we draw conclusions that are insensitive to the particulars of their origin.
 We next consider the origin of Latte stars in terms of our observables -- their metallicity and angular momentum orientation.
@@ -514,8 +506,8 @@ Here we put our results in the context of previously reported evidence for metal
 \subsection{Previous evidence for a metal-rich halo}
 \label{sec:previous}
 Large-scale spectroscopic surveys have mapped the distribution of stellar metallicity in the Milky Way \citep[e.g.,][]{ivezic2008}.
-Some of these stars have distance estimates, and can therefore be spatially identified as a part of the disk or a halo.
-Relevant for this discussion, halo stars in the outer Galaxy, $R_{G}>15$\;kpc, are very metal-poor, with median $\rm[Fe/H]\sim-2.2$, while in the inner Galaxy, typical metallicity of a halo star is $\rm[Fe/H]\sim-1.6$ \citep[e.g.,][]{carollo2007, dejong2010}, which agrees well with the metal-poor halo component identified in our sample.
+Some of these stars have distance estimates, and can therefore be spatially identified with either the disk or the halo.
+Relevant for this discussion, halo stars in the outer Galaxy, $R_{G}>15$\;kpc, are very metal-poor, with median $\rm[Fe/H]\sim-2.2$, while in the inner Galaxy, the typical metallicity of a halo star is $\rm[Fe/H]\sim-1.6$ \citep[e.g.,][]{carollo2007, dejong2010}, which agrees well with the metal-poor halo component identified in our sample.
 Also similar to our findings, metallicities of the inner halo extend to the solar value, even though these are the tail of the metallicity distribution \citep[e.g.,][]{allendeprieto2006}, and not an additional component that is visible in Figure~\ref{fig:mdf}.
 
 However, employing only spatial information makes it hard to distinguish between the halo and the thick-disk, especially at high metallicity.
@@ -560,13 +552,13 @@ These are prime candidates for runaway stars, but they constitute only 0.5\% of 
 \subsubsection{Radial migration}
 \label{sec:migration}
 In the classical picture of radial migration, spiral structures in the disk radially scatter nearby stars up to several kpc \citep{sellwood2002}.
-Stars that have migrated outwards are typically more metal-rich than their neighbors, so radial migration explains why some stars in the Solar neighborhood (including the Sun!) are more metal-rich than both the surrounding stellar population and the local interstellar medium \citep{wielen1996}.
+Stars that have migrated outwards are typically more metal-rich than their neighbors, so radial migration explains why some stars in the Solar neighborhood (possibly including the Sun!) are more metal-rich than both the surrounding stellar population and the local interstellar medium \citep{wielen1996}.
 Idealized simulations of disk formation have found radial migration to be a key component in explaining numerous observables, such as the spread in the age--metallicity relation \citep{roskar2008} or the disk morphology and its abundance patterns \citep{schonrich2009}.
 Such studies have also shown that stars migrating outwards reach larger heights above the disk plane \citep[e.g.,][]{schonrich2009, loebman2011}.
 This scenario can explain, at least in part, the formation of the thick disk \citep[e.g.,][]{wilson2011}, so it is also conceivable that the metal-rich stars we identified on the halo-like orbits are an endpoint of this process.
 However, subsequent numerical works have found that outward migrators do not attain larger scale heights from the disk plane \citep{minchev2012, vera-ciro2014}, thus casting doubts on the idea of forming the thick disk and a metal-rich halo through radial migration.
 
-The above results on radial migration were from simulations initialized to match the orderly morphology of stellar disks observed at the present day and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
+The above results on radial migration are based on simulations initialized to match the orderly morphology of stellar disks observed at the present day and do not capture the range of dynamical conditions present in the cosmological simulations of galaxy formation \citep[e.g.,][]{agertz2009}.
 In particular, the metal-rich halo in the Latte simulation was formed at early cosmic times ($z \gtrsim 1$, or age $\gtrsim 7$ Gyr), before the formation of the thin disk \citep{ma2016} while the host galaxy was still actively accreting.
 Accretion from the inter-galactic medium and merging satellites brought in a lot of gas to the galactic center (evident as star-forming tracks in Figure~\ref{fig:dform}), which fueled additional in-situ star formation.
 \citet{elbadry2016} showed that these conditions create two mechanisms for radially displacing stars from their birth location.
@@ -583,11 +575,11 @@ Future analysis and data from the \emph{Gaia} mission will allow us to test this
 
 \section{Summary}
 \label{sec:summary}
-The goal of this work was to search for the origin of halo stars in the Solar neighborhood.
+The goal of this work was to investigate the origin of halo stars in the Solar neighborhood.
 We analyzed a sample of stars located in 6D using the first year of \emph{Gaia} data, combined with observations from ground-based spectroscopic surveys.
 The halo was defined by requiring a relative velocity with respect to the Local Standard of Rest larger than 220\;km/s.
-Metal-poor stars, $\rm[Fe/H]<-1$, typically identified as the inner halo, comprise approximately a half of this kinematically defined halo sample.
-The other half of the sample are metal-rich stars ($\rm[Fe/H]>-1$), whose both metallicity and $\alpha$-element abundances are traditionally associated with the disk population.
+Metal-poor stars, $\rm[Fe/H]<-1$, typically identified as the inner halo, comprise approximately half of this kinematically defined halo sample.
+The other half of the sample are metal-rich stars ($\rm[Fe/H]>-1$), whose metallicity and $\alpha$-element abundances are traditionally associated with the disk population.
 We built a toy model of the Solar neighborhood to show that orbits of the metal-poor halo stars are isotropically distributed, while the metal-rich halo is preferentially aligned with the Galactic disk.
 To uncover the origin of these two halo components, we performed an identical analysis on a sample of stars selected in a Solar-like neighborhood of the Latte cosmological hydrodynamic simulation.
 A significant fraction of the simulated halo stars are also metal-rich and on prograde orbits with respect to the disk, and most of them were formed in situ in the main galaxy.
@@ -608,6 +600,7 @@ This work has made use of the following Python packages: \texttt{matplotlib} \ci
 
 This paper was written in part at the 2016 NYC Gaia Sprint, hosted by the Center for Computational Astrophysics at the Simons Foundation in New York City.
 
+CC acknowledges support from the Packard Foundation.
 AW was supported by a Caltech-Carnegie Fellowship, in part through the Moore Center for Theoretical Cosmology and Physics at Caltech, and by NASA through grant HST-GO-14734 from STScI.
 
 This work has made use of data from the European Space Agency (ESA) mission {\it Gaia} (\url{http://www.cosmos.esa.int/gaia}), processed by the {\it Gaia} Data Processing and Analysis Consortium (DPAC, \url{http://www.cosmos.esa.int/web/gaia/dpac/consortium}). Funding for the DPAC has been provided by national institutions, in particular the institutions participating in the {\it Gaia} Multilateral Agreement.
@@ -618,7 +611,7 @@ The RAVE web site is at \url{https://www.rave-survey.org}.
 \begin{figure*}
 \begin{center}
 \includegraphics[width=\textwidth]{../plots/paper/tdcontamination.pdf}
-\caption{(Left) Probability contours of thick disk stars in the Toomre diagram in whole steps of standard deviation, $\sigma$ (orange lines).
+\caption{(Left) Probability contours of toy model thick disk stars in the Toomre diagram in whole steps of standard deviation, $\sigma$ (orange lines).
 All halo stars from our RAVEon--TGAS sample (metal-rich in light blue circles and metal-poor in dark blue squares) lie outside of the $3\;\sigma$ thick disk contour, but some are consistent with the thick disk at a $4\;\sigma$ level.
 (Right) Probability for stars, identified in RAVEon--TGAS as part of the halo, of actually being a part of the thick disk.
 Lines show cumulative fractions of halo stars as a function of this probability, with light blue for the metal-rich and dark blue for the metal-poor halo stars.
@@ -654,7 +647,7 @@ So far, we have only considered the kinematic definition of a thick disk as meas
 Studies based on different samples have arrived at slightly modified properties of a thick disk velocity ellipsoid \citep[e.g.,][]{soubiran2003, carollo2010}.
 Furthermore, in a theoretical study of a thick disk formed in an idealized simulation, \citet{sb2009} noted that its velocity distribution in the Toomre diagram is much more asymmetric than the usually assumed Gaussian distribution function.
 However, even this more extended definition of a thick disk does not encompass all of the metal-rich stars identified in the Solar neighborhood, excluding in particular stars on retrograde orbits with high $V_{XZ}$.
-Assuming a different distribution function for the thick disk changes the inferred contamination levels in our halo sample in detail, but no disk-like distribution explains stars on very retrograde, warm orbits, where some of the metal-rich stars from our sample are found.
+Assuming a different distribution function for the thick disk changes the inferred contamination levels in our halo sample in detail, but no disk-like distribution explains stars on very retrograde, kinematically hot orbits, where some of the metal-rich stars from our sample are found.
 
 \end{document}
 

@@ -1193,6 +1193,52 @@ def latte_ages():
     plt.savefig('../plots/paper/latte_ages.pdf', bbox_inches='tight')
 
 
+def latte_dform_hist():
+    """Formation properties of Latte star particles"""
+    
+    latte = load_survey('lattemdif')
+    
+    plt.close()
+    fig, ax = plt.subplots(1,2,figsize=(10,5))
+
+    #dacc = 20
+    accreted = latte.data['feh']<=-1
+    bins = np.linspace(0,100,20)
+    
+    plt.sca(ax[0])
+    plt.hist(latte.data['dform'][latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
+    plt.hist(latte.data['dform'][latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
+    plt.hist(latte.data['dform'][latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
+
+    #plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
+    plt.axvspan(5, 11, color='0.5', alpha=0.2, zorder=2)
+    #plt.text(0.75,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
+    #plt.text(0.75,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
+    
+    plt.ylim(1e-3,0.2)
+    #plt.xlim(13.8,0)
+    plt.gca().set_yscale('log')
+    #plt.xlabel('Age (Gyr)')
+    plt.xlabel('Formation distance (kpc)')
+    plt.ylabel('Probability density (kpc)$^{-1}$')
+    plt.legend(loc=1, fontsize='small', frameon=False)
+    
+    plt.sca(ax[1])
+    bins = np.linspace(-20,11,50)
+    dr = np.linalg.norm(latte.x, axis=1) - latte.data['dform']
+    
+    plt.hist(dr[latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
+    plt.hist(dr[latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
+    plt.hist(dr[latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
+
+    plt.axvspan(-3, 3, color='0.5', alpha=0.2, zorder=2)
+    plt.xlabel('$R_{present}$ - $R_{formation}$ (kpc)')
+    plt.ylabel('Probability density (kpc)$^{-1}$')
+
+    plt.tight_layout()
+    plt.savefig('../plots/latte_dform_hist.pdf', bbox_inches='tight')
+
+
 def vy_mode():
     """"""
     
@@ -1459,3 +1505,130 @@ def comp_latte_ages():
 
     plt.tight_layout(h_pad=0, w_pad=0)
     plt.savefig('../plots/comparison_latte_ages.pdf', bbox_inches='tight')
+
+
+### Charlie's comments ###
+def volume_selection(survey='raveon'):
+    """"""
+    
+    s = load_survey(survey)
+
+    bins = np.linspace(0,3,20)
+
+    mrich = (s.data['feh']>-1)
+    finite = np.isfinite(s.data['feh'])
+    indices = [s.disk & finite, s.halo & finite & mrich, s.halo & finite & ~mrich]
+
+    colors = [red, lblue, dblue]
+    labels = ['Disk', 'Metal-rich halo', 'Metal-poor halo']
+    
+    plt.close()
+    plt.figure(figsize=(6,5))
+    
+    for i, ind in enumerate(indices):
+        plt.hist(1/s.data['parallax'][ind], bins=bins, color=colors[i], label=labels[i], histtype='step', normed=True, lw=2)
+    
+    #plt.hist(1/s.data['parallax'][s.disk], bins=bins, color='r', label='Disk, kinematics only', histtype='step', normed=True, lw=2)
+    #plt.hist(1/s.data['parallax'][s.halo], bins=bins, color='b', label='Halo, kinematics only', histtype='step', normed=True, lw=2)
+    
+    
+    plt.xlabel('Distance (kpc)')
+    plt.ylabel('Probability density (kpc)$^{-1}$')
+    plt.legend(loc=1, fontsize='small', frameon=False)
+    
+    plt.tight_layout()
+    plt.savefig('../plots/distance_hist_{}.pdf'.format(s.name), bbox_inches='tight')
+
+def ltheta_lines():
+    """"""
+    raveon = load_survey('raveon')
+    
+    plt.close()
+    fig, ax = plt.subplots(1,1,figsize=(5.5,5))
+    bx = np.linspace(0,180,10)
+    flag_norm = True
+    fehacc = -1
+
+    finite = np.isfinite(raveon.data['feh'])
+    mrich = raveon.data['feh']>fehacc
+    
+    plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, color=red, label='Disk', normed=flag_norm, lw=0, histtype='stepfilled', alpha=0.7)
+    
+    plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
+    plt.hist(raveon.ltheta[raveon.disk & finite], bins=bx, histtype='step', color=red, lw=2, label='', normed=True)
+    
+    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, color=lblue, label='Halo: $[Fe/H]>-1$', normed=flag_norm, lw=0, histtype='stepfilled', alpha=0.7)
+    
+    plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, color=dblue, label='Halo: $[Fe/H]\leq-1$', normed=flag_norm, lw=0, histtype='stepfilled', alpha=0.7)
+    plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
+    plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bx, histtype='step', color='navy', lw=2, label='', normed=True)
+
+    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
+    plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='royalblue', lw=2, label='', normed=True)
+    
+    plt.axvline(90, ls='--', color='0.2', lw=2)
+    ax.set_xticks(np.arange(0,181,45))
+    
+    plt.xlim(0, 180)
+    plt.ylim(1e-3, 0.1)
+    ax.set_yscale('log')
+    plt.xlabel('$\\vec{L}$ orientation (deg)')
+    plt.ylabel('Probability density (deg$^{-1}$)')
+
+    #leg = plt.legend(loc=2, frameon=False, fontsize='small')
+    leg = plt.legend(loc=2, frameon=True, fontsize='small', framealpha=0.95, edgecolor='w')
+    for legobj in leg.legendHandles:
+        legobj.set_linewidth(3.0)
+    #leg.set_bbox(dict(fc='w', alpha=0.5, ec='none'))
+    
+    label_pad = 0.04
+    plt.text(label_pad, 1.04, 'Retrograde', fontsize='small', transform=ax.transAxes, ha='left', va='center')
+    plt.text(1-label_pad, 1.04, 'Prograde', fontsize='small', transform=ax.transAxes, ha='right', va='center')
+    
+    ax.set_axisbelow(False)
+
+    plt.tight_layout()
+    plt.savefig('../plots/ltheta_lines.pdf', bbox_inches='tight')
+
+def latte_insitu():
+    """"""
+    
+    latte = load_survey('lattemdif')
+    insitu = latte.data['dform']<=20
+    mrich = latte.data['feh']>-1
+    
+    print('mrich insitu', np.sum(latte.halo & mrich & insitu)/np.sum(latte.halo & mrich))
+    print('mpoor insitu', np.sum(latte.halo & ~mrich & insitu)/np.sum(latte.halo & ~mrich))
+
+def mw_mrich():
+    """"""
+    for survey in ['raveon', 'apogee', 'lattemdif']:
+        s = load_survey(survey)
+        finite = np.isfinite(s.data['feh'])
+        mrich = s.data['feh']>-1
+        
+        print(survey, 'mrich halo', np.sum(s.halo & finite & mrich)/np.sum(s.halo & finite))
+
+def mw_retrograde():
+    """"""
+    
+    plt.close()
+    plt.figure()
+    
+    for i, survey in enumerate(['raveon', 'apogee', 'lattemdif']):
+        s = load_survey(survey)
+        finite = np.isfinite(s.data['feh'])
+        mrich = s.data['feh']>-1
+        retrograde = s.ltheta<90
+        
+        print(survey, 'mrich halo', np.sum(s.halo & finite & mrich & retrograde)/np.sum(s.halo & finite & mrich))
+        print(survey, 'mpoor halo', np.sum(s.halo & finite & ~mrich & retrograde)/np.sum(s.halo & finite & ~mrich))
+        print(survey, 'disk', np.sum(s.disk & finite & retrograde)/np.sum(s.disk & finite))
+    
+        plt.hist(s.ltheta[s.halo & finite & mrich], normed=True, histtype='step', lw=5, color='{}'.format(i/3))
+        plt.hist(s.ltheta[s.halo & finite & ~mrich], normed=True, histtype='step', lw=5, color='{}'.format(i/3), ls='--')
+    
+    insitu = s.data['dform']<=20
+    print('latte mrich insitu', np.sum(s.halo & finite & insitu & retrograde)/np.sum(s.halo & finite & insitu))
+
+
