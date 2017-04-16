@@ -734,8 +734,8 @@ def latte(mwcomp=False):
     if mwcomp:
         finite = np.isfinite(raveon.data['feh'])
         mrich = raveon.data['feh']>-1
-        plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True)
-        plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='royalblue', lw=2, label='', normed=True)
+        plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='0.9', lw=4, label='', normed=True, zorder=10)
+        plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bx, histtype='step', color='royalblue', lw=2, label='', normed=True, zorder=10)
 
     plt.hist(s.ltheta[s.halo & accreted], color=dblue, histtype='stepfilled', alpha=0.7, bins=bx, lw=2, normed=flag_norm, 
             label='Metal-poor halo')
@@ -895,7 +895,102 @@ def latte_facc():
     plt.ylabel('Accreted fraction')
     
     plt.savefig('../plots/paper/latte_facc.pdf', bbox_inches='tight')
+
+
+def latte_fin():
+    """"""
+    s = load_survey('lattemdif')
     
+    plt.close()
+    fig, ax = plt.subplots(1,2,figsize=(11,5.5))
+    
+    plt.sca(ax[0])
+    accreted = s.data['dform']>20
+    mrich = s.data['feh']>-1
+    
+    bx = np.linspace(0,180,10)
+    bc = myutils.bincen(bx)
+    
+    colors = ['royalblue', 'navy']
+    labels = ['Metal-rich halo', 'Metal-poor halo']
+    
+    for i, ind in enumerate([mrich, ~mrich]):
+        h, be = np.histogram(s.ltheta[s.halo & ind], bins=bx)
+        hin, be = np.histogram(s.ltheta[s.halo & ind & ~accreted], bins=bx)
+        hacc, be = np.histogram(s.ltheta[s.halo & ind & accreted], bins=bx)
+        
+        plt.plot(bc, hin/h, '-', color=colors[i], lw=4, label=labels[i])
+        
+        #h1 = (hin - hin**-0.5)/h
+        #h2 = (hin + hin**-0.5)/h
+        #plt.fill_between(bc, h1, h2, color=colors[i], alpha=0.7, label=labels[i])
+    
+    plt.axvline(90, ls='--', color='0.2', lw=2)
+    ax[0].set_xticks(np.arange(0,181,45))
+    plt.ylim(0, 1)
+    
+    plt.xlabel('$\\vec{L}$ orientation (deg)')
+    plt.ylabel('In-situ fraction')
+    #plt.legend(loc=4, frameon=False, fontsize='small', handlelength=1)
+    leg = plt.legend(loc=4, frameon=True, fontsize='small', framealpha=0.95, edgecolor='w')
+    for legobj in leg.legendHandles:
+        legobj.set_linewidth(3.0)
+    
+    label_pad = 0.04
+    plt.text(label_pad, 1.04, 'Retrograde', fontsize='small', transform=ax[0].transAxes, ha='left', va='center')
+    plt.text(1-label_pad, 1.04, 'Prograde', fontsize='small', transform=ax[0].transAxes, ha='right', va='center')
+    
+    
+    # accreted fraction as a function of 
+    plt.sca(ax[1])
+    by = np.linspace(-3,0.5,10)
+    bx = np.linspace(0,180,10)
+
+    facc, xe, ye, nb = scipy.stats.binned_statistic_2d(s.ltheta[s.halo], s.data['feh'][s.halo], s.data['dform'][s.halo], 
+                                                    statistic=accreted_fraction, bins=(bx, by))
+    facc = 1 - facc
+    
+    # set nans to the avg of the nearest finite pixels
+    facc_interp = pd.DataFrame(facc).interpolate(method='cubic', axis=1).values
+    facc_interp = pd.DataFrame(facc_interp).interpolate(method='cubic', axis=0).values
+    
+    xc = myutils.bincen(xe)
+    yc = myutils.bincen(ye)
+    oldgrid_x, oldgrid_y = np.meshgrid(xc, yc)
+    points = np.array([np.ravel(oldgrid_x), np.ravel(oldgrid_y)]).T
+    values = np.ravel(facc_interp)
+    
+    grid_x, grid_y = np.mgrid[0:180:1000j, -3:0.5:1000j]
+    grid_z = scipy.interpolate.griddata(points, values, (grid_x, grid_y), method='nearest')
+    
+    facc_smooth = filters.gaussian_filter(grid_z.T, 100)
+    
+    ratio = (xe[-1] - xe[0]) / (ye[-1] - ye[0])
+    im = plt.imshow(facc_smooth.T, origin='lower', vmin=0, vmax=1, extent=(xe[0], xe[-1], ye[0], ye[-1]), aspect='auto', interpolation='gaussian', cmap='viridis_r')
+    #im = plt.imshow(grid_z, origin='lower', vmin=0, vmax=1, extent=(xe[0], xe[-1], ye[0], ye[-1]), aspect=ratio, interpolation='none', cmap='bone')
+    
+    cs = plt.contour(facc_smooth.T, extent=(xe[0], xe[-1], ye[0], ye[-1]), levels=(0.1,0.5,0.9), colors='0.9')
+    
+    fmt = {}
+    for i, l in enumerate(cs.levels):
+        fmt[l] = '{:.0f}% in-situ'.format(l*100)
+    labels = plt.clabel(cs, inline=True, fontsize='small', fmt=fmt, colors='w') #, use_clabeltext=True)
+
+    ax[1].set_xticks(np.arange(0,181,45))
+    plt.xlim(0,180)
+    plt.xlabel('$\\vec{L}$ orientation (deg)')
+    plt.ylabel('[Fe/H]')
+
+    plt.tight_layout()
+
+    pos = plt.gca().get_position()
+    cax = plt.axes([0.97,pos.y0,0.025,pos.y1 - pos.y0])
+    plt.colorbar(im, cax=cax) #, ticks=np.arange(-2.5,0.51,0.5))
+    plt.ylabel('In-situ fraction')
+    
+    plt.savefig('../plots/paper/latte_fin.pdf', bbox_inches='tight')
+
+
 def latte_med_dform():
     """"""
     s = load_survey('lattemdif')
@@ -1193,52 +1288,6 @@ def latte_ages():
     plt.savefig('../plots/paper/latte_ages.pdf', bbox_inches='tight')
 
 
-def latte_dform_hist():
-    """Formation properties of Latte star particles"""
-    
-    latte = load_survey('lattemdif')
-    
-    plt.close()
-    fig, ax = plt.subplots(1,2,figsize=(10,5))
-
-    #dacc = 20
-    accreted = latte.data['feh']<=-1
-    bins = np.linspace(0,100,20)
-    
-    plt.sca(ax[0])
-    plt.hist(latte.data['dform'][latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
-    plt.hist(latte.data['dform'][latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
-    plt.hist(latte.data['dform'][latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
-
-    #plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
-    plt.axvspan(5, 11, color='0.5', alpha=0.2, zorder=2)
-    #plt.text(0.75,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
-    #plt.text(0.75,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
-    
-    plt.ylim(1e-3,0.2)
-    #plt.xlim(13.8,0)
-    plt.gca().set_yscale('log')
-    #plt.xlabel('Age (Gyr)')
-    plt.xlabel('Formation distance (kpc)')
-    plt.ylabel('Probability density (kpc)$^{-1}$')
-    plt.legend(loc=1, fontsize='small', frameon=False)
-    
-    plt.sca(ax[1])
-    bins = np.linspace(-20,11,50)
-    dr = np.linalg.norm(latte.x, axis=1) - latte.data['dform']
-    
-    plt.hist(dr[latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
-    plt.hist(dr[latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
-    plt.hist(dr[latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
-
-    plt.axvspan(-3, 3, color='0.5', alpha=0.2, zorder=2)
-    plt.xlabel('$R_{present}$ - $R_{formation}$ (kpc)')
-    plt.ylabel('Probability density (kpc)$^{-1}$')
-
-    plt.tight_layout()
-    plt.savefig('../plots/latte_dform_hist.pdf', bbox_inches='tight')
-
-
 def vy_mode():
     """"""
     
@@ -1281,6 +1330,117 @@ def age_ltheta():
     plt.legend()
 
 
+def volume_selection(survey='raveon', latte=False, mock=False):
+    """"""
+    
+    s = load_survey(survey)
+    d = 1/s.data['parallax']
+    #d = np.abs(s.x[:,0])
+    #d = s.x[:,2]
+
+    bins = np.linspace(0,4,20)
+    #bins = np.linspace(-4,4,20)
+    #bins = np.linspace(-12,-4,20)
+    #bins = np.linspace(4,12,20)
+    
+    print('within 4kpc', np.sum(d<4)/np.size(d))
+    print('full sample', np.percentile(d, [5,16,50,84,95]))
+    for ind in [s.disk, s.halo]:
+        print('0.9, 0.95', np.percentile(d[ind], [90,95]))
+
+    mrich = (s.data['feh']>-1)
+    finite = np.isfinite(s.data['feh'])
+    indices = [s.disk & finite, s.halo & finite & mrich, s.halo & finite & ~mrich]
+
+    colors = [red, lblue, dblue]
+    labels = ['Disk', 'Metal-rich halo', 'Metal-poor halo']
+    
+    plt.close()
+    plt.figure(figsize=(6,5))
+    
+    for i, ind in enumerate(indices):
+        plt.hist(d[ind], bins=bins, color=colors[i], label='', histtype='step', normed=True, lw=4, alpha=0.8)
+        plt.plot([-3,-2], [-3,-2], color=colors[i], lw=4, alpha=0.8, label=labels[i])
+        
+        print(np.percentile(d[ind], [5,50,95]))
+
+    if latte:
+        s = load_survey('lattemdif')
+        d = np.linalg.norm(s.x.to(u.kpc).value - np.array([-8.3,0,0.025])[np.newaxis,:], axis=1)
+
+        bins = np.linspace(0,4,20)
+        
+        print('within 4kpc', np.sum(d<4)/np.size(d))
+        print('full sample', np.percentile(d, [5,16,50,84,95]))
+        for ind in [s.disk, s.halo]:
+            print('0.9, 0.95', np.percentile(d[ind], [90,95]))
+
+        mrich = (s.data['feh']>-1)
+        finite = np.isfinite(s.data['feh'])
+        indices = [s.disk & finite, s.halo & finite & mrich, s.halo & finite & ~mrich]
+
+        colors = [red, lblue, dblue]
+        labels = ['Disk', 'Metal-rich halo', 'Metal-poor halo']
+        
+        for i, ind in enumerate(indices):
+            plt.hist(d[ind], bins=bins, color=colors[i], label='', histtype='step', normed=True, lw=4, alpha=0.8, ls=':')
+            plt.plot([-3,-2], [-3,-2], color=colors[i], lw=4, alpha=0.8, label='Latte {}'.format(labels[i]), ls=':')
+            
+            print(np.percentile(d[ind], [5,50,95]))
+
+    if mock:
+        d = mock_halo_distance()
+        plt.hist(d, bins=bins, histtype='step', color='k', ls=':', lw=2, alpha=0.8, normed=True)
+    
+    plt.xlabel('Distance (kpc)')
+    plt.ylabel('Probability density (kpc)$^{-1}$')
+    plt.legend(loc=1, fontsize='small', frameon=False)
+    plt.xlim(np.min(bins), np.max(bins))
+    plt.gca().set_ylim(bottom=0)
+    
+    plt.tight_layout()
+    plt.savefig('../plots/paper/distance_hist_{}.pdf'.format(s.name), bbox_inches='tight')
+
+def mock_halo_distance(a=-3.5, N=10000, xsun = np.array([-8.3,0,0.027])*u.kpc, graph=False):
+    """Create mock halo following a power-law density distribution, and return distances from the sun
+    Parameters:
+    a - powerlaw index (default: -3.5)
+    N - number of halo stars to draw (default: 10000)
+    xsun - 3D position of the Sun in Galactocentric coordinates, astropy Quantity
+    graph - toggle plotting the histogram of distances (default: False)"""
+    
+    # draw radial distribution
+    rhalo = random_powerlaw(5, 12, g=a, size=N)
+    
+    # draw position on the sphere
+    hu_ = np.random.random(N)
+    hv_ = np.random.random(N)
+    htheta = np.arccos(2*hu_ - 1)
+    hphi = 2 * np.pi * hv_
+    hd = np.array([np.sin(htheta) * np.cos(hphi), np.sin(htheta) * np.sin(hphi), np.cos(htheta)]).T
+    
+    # 3D positions of halo stars
+    xhalo = rhalo[:,np.newaxis] * hd
+    
+    # distance from the Sun
+    d = np.linalg.norm(xhalo - xsun[np.newaxis,:].to(u.kpc).value, axis=1)
+    
+    if graph:
+        plt.close()
+        plt.figure()
+        plt.hist(d, bins=np.linspace(0,3,30), histtype='step', normed=True)
+        #plt.hist(rhalo, bins=30, color='k', ls='--', histtype='step', normed=True)
+        #plt.hist(rhalo_, bins=30, color='r', ls='--', histtype='step', normed=True)
+    
+    return d
+
+def random_powerlaw(a, b, g, size=1):
+    """Power-law gen for pdf(x)\propto x^{g-1} for a<=x<=b"""
+    
+    r = np.random.random(size=size)
+    ag, bg = a**g, b**g
+    
+    return (ag + (bg - ag)*r)**(1./g)
 
 ### Latte comparison ###
 # cross-check of all the plots in metal-diffusion, fiducial and high-res runs
@@ -1508,36 +1668,50 @@ def comp_latte_ages():
 
 
 ### Charlie's comments ###
-def volume_selection(survey='raveon'):
-    """"""
+def latte_dform_hist():
+    """Formation properties of Latte star particles"""
     
-    s = load_survey(survey)
-
-    bins = np.linspace(0,3,20)
-
-    mrich = (s.data['feh']>-1)
-    finite = np.isfinite(s.data['feh'])
-    indices = [s.disk & finite, s.halo & finite & mrich, s.halo & finite & ~mrich]
-
-    colors = [red, lblue, dblue]
-    labels = ['Disk', 'Metal-rich halo', 'Metal-poor halo']
+    latte = load_survey('lattemdif')
     
     plt.close()
-    plt.figure(figsize=(6,5))
+    fig, ax = plt.subplots(1,2,figsize=(10,5))
+
+    #dacc = 20
+    accreted = latte.data['feh']<=-1
+    bins = np.linspace(0,100,20)
     
-    for i, ind in enumerate(indices):
-        plt.hist(1/s.data['parallax'][ind], bins=bins, color=colors[i], label=labels[i], histtype='step', normed=True, lw=2)
+    plt.sca(ax[0])
+    plt.hist(latte.data['dform'][latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
+    plt.hist(latte.data['dform'][latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
+    plt.hist(latte.data['dform'][latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
+
+    #plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
+    plt.axvspan(5, 11, color='0.5', alpha=0.2, zorder=2)
+    #plt.text(0.75,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
+    #plt.text(0.75,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
     
-    #plt.hist(1/s.data['parallax'][s.disk], bins=bins, color='r', label='Disk, kinematics only', histtype='step', normed=True, lw=2)
-    #plt.hist(1/s.data['parallax'][s.halo], bins=bins, color='b', label='Halo, kinematics only', histtype='step', normed=True, lw=2)
-    
-    
-    plt.xlabel('Distance (kpc)')
+    plt.ylim(1e-3,0.2)
+    #plt.xlim(13.8,0)
+    plt.gca().set_yscale('log')
+    #plt.xlabel('Age (Gyr)')
+    plt.xlabel('Formation distance (kpc)')
     plt.ylabel('Probability density (kpc)$^{-1}$')
     plt.legend(loc=1, fontsize='small', frameon=False)
     
+    plt.sca(ax[1])
+    bins = np.linspace(-20,11,50)
+    dr = np.linalg.norm(latte.x, axis=1) - latte.data['dform']
+    
+    plt.hist(dr[latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
+    plt.hist(dr[latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
+    plt.hist(dr[latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
+
+    plt.axvspan(-3, 3, color='0.5', alpha=0.2, zorder=2)
+    plt.xlabel('$R_{present}$ - $R_{formation}$ (kpc)')
+    plt.ylabel('Probability density (kpc)$^{-1}$')
+
     plt.tight_layout()
-    plt.savefig('../plots/distance_hist_{}.pdf'.format(s.name), bbox_inches='tight')
+    plt.savefig('../plots/latte_dform_hist.pdf', bbox_inches='tight')
 
 def ltheta_lines():
     """"""
@@ -1588,7 +1762,7 @@ def ltheta_lines():
     ax.set_axisbelow(False)
 
     plt.tight_layout()
-    plt.savefig('../plots/ltheta_lines.pdf', bbox_inches='tight')
+    plt.savefig('../plots/paper/ltheta_lines.pdf', bbox_inches='tight')
 
 def latte_insitu():
     """"""
@@ -1631,4 +1805,109 @@ def mw_retrograde():
     insitu = s.data['dform']<=20
     print('latte mrich insitu', np.sum(s.halo & finite & insitu & retrograde)/np.sum(s.halo & finite & insitu))
 
+def facc_ltheta():
+    """"""
+    s = load_survey('lattemdif')
+    accreted = s.data['dform']>20
+    mrich = s.data['feh']>-1
+    
+    bx = np.linspace(0,180,10)
+    bc = myutils.bincen(bx)
+    
+    colors = ['royalblue', 'navy']
+    labels = ['Metal-rich halo', 'Metal-poor halo']
+    
+    plt.close()
+    fig, ax = plt.subplots(1,1,figsize=(6,5))
+    
+    for i, ind in enumerate([mrich, ~mrich]):
+        h, be = np.histogram(s.ltheta[s.halo & ind], bins=bx)
+        hin, be = np.histogram(s.ltheta[s.halo & ind & ~accreted], bins=bx)
+        hacc, be = np.histogram(s.ltheta[s.halo & ind & accreted], bins=bx)
+        
+        plt.plot(bc, hin/h, '-', color=colors[i], lw=4, label=labels[i])
+    
+    plt.axvline(90, ls='--', color='0.2', lw=2)
+    ax.set_xticks(np.arange(0,181,45))
+    plt.ylim(0, 1)
+    
+    plt.xlabel('$\\vec{L}$ orientation (deg)')
+    plt.ylabel('In-situ fraction')
+    plt.legend(loc=4, frameon=False, fontsize='small')
+    
+    label_pad = 0.04
+    plt.text(label_pad, 1.04, 'Retrograde', fontsize='small', transform=ax.transAxes, ha='left', va='center')
+    plt.text(1-label_pad, 1.04, 'Prograde', fontsize='small', transform=ax.transAxes, ha='right', va='center')
+    
+    plt.tight_layout()
+    plt.savefig('../plots/fin_ltheta.pdf')
+
+def facc_ltheta_feh():
+    """"""
+    s = load_survey('lattemdif')
+    accreted = s.data['dform']>20
+    mrich = s.data['feh']>-1
+    
+    bx = np.linspace(0,180,10)
+    bc = myutils.bincen(bx)
+    #by = np.linspace(-3,0.5,10)
+    
+    colors = ['royalblue', 'navy']
+    labels = ['Metal-rich halo', 'Metal-poor halo']
+    
+    plt.close()
+    fig, ax = plt.subplots(1,1,figsize=(6,5))
+    
+    for i, ind in enumerate([mrich, ~mrich]):
+        h, be = np.histogram(s.ltheta[s.halo & ind], bins=bx)
+        hin, be = np.histogram(s.ltheta[s.halo & ind & ~accreted], bins=bx)
+        hacc, be = np.histogram(s.ltheta[s.halo & ind & accreted], bins=bx)
+
+        feh, xe, nb = scipy.stats.binned_statistic(s.ltheta[s.halo & ind], s.data['feh'][s.halo & ind], statistic='mean', bins=bx)
+        #facc, xe, ye, nb = scipy.stats.binned_statistic_2d(s.ltheta[s.halo], s.data['feh'][s.halo], s.data['dform'][s.halo], statistic=accreted_fraction, bins=(bx, by))
+        
+        plt.plot(bc, hin/h, '-', color=colors[i], lw=4, label=labels[i], zorder=0)
+        plt.scatter(bc, hin/h, c=feh, s=50, cmap='Blues_r', vmin=-3, vmax=0.5)
+        
+        for i in range(np.size(bc)):
+            plt.text(bc[i], hin[i]/h[i]-0.07, '{:.2f}'.format(feh[i]), ha='center', fontsize='x-small')
+    
+    plt.axvline(90, ls='--', color='0.2', lw=2)
+    ax.set_xticks(np.arange(0,181,45))
+    plt.ylim(0, 1)
+    
+    plt.xlabel('$\\vec{L}$ orientation (deg)')
+    plt.ylabel('In-situ fraction')
+    plt.legend(loc=4, frameon=False, fontsize='small')
+    
+    label_pad = 0.04
+    plt.text(label_pad, 1.04, 'Retrograde', fontsize='small', transform=ax.transAxes, ha='left', va='center')
+    plt.text(1-label_pad, 1.04, 'Prograde', fontsize='small', transform=ax.transAxes, ha='right', va='center')
+    
+    plt.tight_layout()
+    plt.savefig('../plots/fin_ltheta_feh.pdf')
+
+def temperatures(survey='raveon'):
+    """"""
+    
+    s = load_survey(survey)
+    finite = np.isfinite(s.data['teff'])
+    teff = [30000,10000,7500,6000,5200,3700,2400]
+    stype = ['B', 'A', 'F', 'G', 'K', 'M']
+    nt = len(stype)
+    
+    for i in range(nt):
+        ind = finite & (s.data['teff']<teff[i]) & (s.data['teff']>=teff[i+1])
+        print('disk', stype[i], np.sum(s.disk & ind), np.sum(s.disk & ind)/np.sum(s.disk & finite))
+        print('halo', stype[i], np.sum(s.halo & ind), np.sum(s.halo & ind)/np.sum(s.halo & finite))
+
+def latte_closer(d=1*u.kpc):
+    """"""
+    s = load_survey('lattemdif')
+    xsun = np.array([-8.3,0,0])*u.kpc
+    nearby = np.linalg.norm(s.x - xsun[np.newaxis,:], axis=1)<d.to(u.kpc).value
+    print(nearby, np.sum(nearby))
+    
+    print('total halo fraction', np.sum(s.halo)/np.size(s.halo))
+    print('halo fraction within {:.1f} {}'.format(d.value, d.unit), np.sum(s.halo & nearby)/np.sum(nearby))
 
