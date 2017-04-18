@@ -974,6 +974,9 @@ def latte_fin():
     fmt = {}
     for i, l in enumerate(cs.levels):
         fmt[l] = '{:.0f}% in-situ'.format(l*100)
+        if i==1:
+            #fmt[l] = '\t{:.0f}%'.format(l*100)+' in situ'
+            fmt[l] = '\t{:.0f}% in-situ'.format(l*100)
     labels = plt.clabel(cs, inline=True, fontsize='small', fmt=fmt, colors='w') #, use_clabeltext=True)
 
     ax[1].set_xticks(np.arange(0,181,45))
