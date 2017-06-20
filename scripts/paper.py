@@ -576,7 +576,7 @@ def toy_model(seed=205):
     title.set_position([.5, 1.05])
     
     plt.sca(ax[1])
-    bx = np.linspace(0, 180, 15)
+    bx = np.linspace(0,180,10)
     plt.hist(theta[tdisk], bins=bx, histtype='stepfilled', color=red, alpha=0.8, lw=4, label='Toy disk')
     plt.hist(theta[thalo], bins=bx, histtype='stepfilled', color=blue, alpha=0.8, lw=4, label='Toy halo')
 
@@ -608,8 +608,8 @@ def toy_model(seed=205):
     finite = np.isfinite(raveon.data['feh'])
     mrich = raveon.data['feh']>-1
     bxmod = np.copy(bx)
-    bxmod[0] -= 1
-    bxmod[-1] += 2
+    #bxmod[0] -= 1
+    #bxmod[-1] += 2
     
     plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color='0.9', lw=4, label='', normed=True)
     plt.hist(raveon.ltheta[raveon.halo & finite & ~mrich], bins=bxmod, histtype='step', color=dblue, lw=2, label='', normed=True)
@@ -619,17 +619,20 @@ def toy_model(seed=205):
     plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='', normed=True)
     plt.plot([-1,0], [-10,-11], color=lblue, lw=2, alpha=1, label='Milky Way halo, metal-rich', path_effects=[pe.Stroke(linewidth=5, foreground='0.9'), pe.Normal()])
     
+    print(scipy.stats.ks_2samp(theta[thalo & mock_halo], raveon.ltheta[raveon.halo & finite & ~mrich]))
+    print(scipy.stats.ks_2samp(theta[thalo & mock_halo], raveon.ltheta[raveon.halo & finite & mrich]))
     #plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color='w', lw=4, label='', normed=True)
     #plt.hist(raveon.ltheta[raveon.halo & finite & mrich], bins=bxmod, histtype='step', color=lblue, lw=2, label='Metal-rich MW halo', normed=True)
     
-    plt.xlim(0,180)
+    plt.xlim(0, 180)
+    plt.ylim(1e-3, 0.1)
     plt.gca().set_yscale('log')
     ax[2].set_xticks(np.arange(0,181,45))
 
     plt.legend(loc=2, frameon=False, fontsize='small')
     plt.xlabel('$\\vec{L}$ orientation (deg)')
     plt.ylabel('Probability density (deg$^{-1}$)')
-    plt.ylim(3e-4, 1.4e-1)
+    #plt.ylim(3e-4, 1.4e-1)
     plt.title('Kinematic selection', fontsize='medium')
     
     h_, l_ = ax[2].get_legend_handles_labels()
@@ -1687,6 +1690,14 @@ def latte_dform_hist():
     plt.hist(latte.data['dform'][latte.disk], bins=bins, color=red, label='Disk', histtype='step', normed=True, lw=2)
     plt.hist(latte.data['dform'][latte.halo & accreted], bins=bins, color=dblue, label='Metal-poor halo', histtype='step', normed=True, lw=2)
     plt.hist(latte.data['dform'][latte.halo & ~accreted], bins=bins, color=lblue, label='Metal-rich halo', histtype='step', normed=True, lw=2)
+    
+    med_d = np.median(latte.data['dform'][latte.disk])
+    med_hr = np.median(latte.data['dform'][latte.halo & ~accreted])
+    med_hp = np.median(latte.data['dform'][latte.halo & accreted])
+    print('median disk: {:.1f}'.format(med_d))
+    print('median halo mrich: {:.1f}'.format(med_hr))
+    print('median halo mpoor: {:.1f}'.format(med_hp))
+    print('mrich inside: {:.2f}'.format(np.sum(latte.halo & ~accreted & (latte.data['dform']<5))/np.sum(latte.halo & ~accreted)))
 
     #plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
     plt.axvspan(5, 11, color='0.5', alpha=0.2, zorder=2)
@@ -1774,19 +1785,30 @@ def latte_insitu():
     insitu = latte.data['dform']<=20
     mrich = latte.data['feh']>-1
     
+    print('insitu', np.sum(latte.halo & insitu)/np.sum(latte.halo))
     print('mrich insitu', np.sum(latte.halo & mrich & insitu)/np.sum(latte.halo & mrich))
     print('mpoor insitu', np.sum(latte.halo & ~mrich & insitu)/np.sum(latte.halo & ~mrich))
+
+    print('insitu distance', np.median(latte.data['dform'][latte.halo & insitu]))
+    print('mrich insitu distance', np.median(latte.data['dform'][latte.halo & insitu & mrich]))
+    print('mpoor insitu distance', np.median(latte.data['dform'][latte.halo & insitu & ~mrich]))
+
 
 def mw_mrich():
     """"""
     for survey in ['raveon', 'apogee', 'lattemdif']:
         s = load_survey(survey)
         finite = np.isfinite(s.data['feh'])
+        afinite = np.isfinite(s.data['afe'])
         mrich = s.data['feh']>-1
         
+        print(survey, 'mpoor total', np.sum(finite & ~mrich)/np.sum(finite))
+        print(survey, 'mrich halo', np.sum(s.halo & finite & mrich), np.sum(s.halo & finite & ~mrich), np.sum(s.halo & finite))
         print(survey, 'mrich halo', np.sum(s.halo & finite & mrich)/np.sum(s.halo & finite))
+        print(survey, 'mrich halo w alphas', np.sum(s.halo & afinite & mrich), np.sum(s.halo & afinite & ~mrich), np.sum(s.halo & afinite))
+        print(survey, 'mrich halo w alphas', np.sum(s.halo & afinite & mrich)/np.sum(s.halo & afinite), np.sum(s.halo & afinite))
 
-def mw_retrograde():
+def mw_prograde():
     """"""
     
     plt.close()
@@ -1796,17 +1818,17 @@ def mw_retrograde():
         s = load_survey(survey)
         finite = np.isfinite(s.data['feh'])
         mrich = s.data['feh']>-1
-        retrograde = s.ltheta<90
+        prograde = s.ltheta>90
         
-        print(survey, 'mrich halo', np.sum(s.halo & finite & mrich & retrograde)/np.sum(s.halo & finite & mrich))
-        print(survey, 'mpoor halo', np.sum(s.halo & finite & ~mrich & retrograde)/np.sum(s.halo & finite & ~mrich))
-        print(survey, 'disk', np.sum(s.disk & finite & retrograde)/np.sum(s.disk & finite))
+        print(survey, 'mrich halo', np.sum(s.halo & finite & mrich & prograde)/np.sum(s.halo & finite & mrich))
+        print(survey, 'mpoor halo', np.sum(s.halo & finite & ~mrich & prograde)/np.sum(s.halo & finite & ~mrich))
+        print(survey, 'disk', np.sum(s.disk & finite & prograde)/np.sum(s.disk & finite))
     
         plt.hist(s.ltheta[s.halo & finite & mrich], normed=True, histtype='step', lw=5, color='{}'.format(i/3))
         plt.hist(s.ltheta[s.halo & finite & ~mrich], normed=True, histtype='step', lw=5, color='{}'.format(i/3), ls='--')
     
     insitu = s.data['dform']<=20
-    print('latte mrich insitu', np.sum(s.halo & finite & insitu & retrograde)/np.sum(s.halo & finite & insitu))
+    print('latte mrich insitu', np.sum(s.halo & finite & insitu & prograde)/np.sum(s.halo & finite & insitu))
 
 def facc_ltheta():
     """"""
@@ -1913,4 +1935,152 @@ def latte_closer(d=1*u.kpc):
     
     print('total halo fraction', np.sum(s.halo)/np.size(s.halo))
     print('halo fraction within {:.1f} {}'.format(d.value, d.unit), np.sum(s.halo & nearby)/np.sum(nearby))
+
+
+### Referee's report ###
+def configuration_space():
+    """"""
+    
+    colors = ['royalblue', 'orange']
+    Nb = 10
+    bv = np.linspace(-400,400,Nb+1)
+    bx = [np.linspace(x0-3,x0+3,Nb+1) for x0 in [-8.3, 0, 0]]
+    xlabel = ['X', 'Y', 'Z']
+    
+    plt.close()
+    fig, ax = plt.subplots(2,4,figsize=(14,6))
+    for j, survey in enumerate(['raveon', 'apogee']):
+        s = load_survey(survey)
+        finite = np.isfinite(s.data['feh'])
+        mrich = s.data['feh']>-1
+        
+        for i in range(3):
+            plt.sca(ax[0][i])
+            plt.hist(s.x[:,i][s.halo & finite & mrich], bins=bx[i], normed=True, lw=2, ls='-', histtype='step', color=colors[j])
+            plt.hist(s.x[:,i][s.halo & finite & ~mrich], bins=bx[i], normed=True, lw=2, ls=':', histtype='step', color=colors[j])
+            
+            plt.sca(ax[1][i])
+            plt.hist(s.v[:,i][s.halo & finite & mrich], bins=bv, normed=True, lw=2, ls='-', histtype='step', color=colors[j])
+            plt.hist(s.v[:,i][s.halo & finite & ~mrich], bins=bv, normed=True, lw=2, ls=':', histtype='step', color=colors[j])
+    
+        plt.sca(ax[0][3])
+        plt.plot(np.ones(2), np.arange(2), lw=2, ls='-', color=colors[j], label=s.label)
+    
+    for i in range(3):
+        plt.sca(ax[0][i])
+        plt.xlabel('{} (kpc)'.format(xlabel[i]))
+        plt.ylabel('Density (kpc)$^{-1}$')
+        
+        plt.sca(ax[1][i])
+        plt.xlabel('V$_{}$ (km/s)'.format(xlabel[i]))
+        plt.ylabel('Density (km/s)$^{-1}$')
+    
+    plt.sca(ax[0][3])
+    plt.axis('off')
+    
+    plt.plot(np.ones(2), np.arange(2), lw=2, ls='-', color='k', label='Metal-rich halo')
+    plt.plot(np.ones(2), np.arange(2), lw=2, ls=':', color='k', label='Metal-poor halo')
+    
+    plt.xlim(-2,-1)
+    plt.legend(frameon=False, bbox_to_anchor=(-0.5, 1), bbox_transform=plt.gca().transAxes, loc=2, fontsize='medium')
+    
+    plt.sca(ax[1][3])
+    plt.axis('off')
+    
+    plt.tight_layout()
+    plt.savefig('../plots/configuration_space.pdf', bbox_inches='tight')
+
+def vy():
+    """"""
+    colors = ['royalblue', 'navy']
+    Nb = 20
+    bv = np.linspace(-400,400,Nb+1)
+    #bx = [np.linspace(x0-3,x0+3,Nb+1) for x0 in [-8.3, 0, 0]]
+    #xlabel = ['X', 'Y', 'Z']
+    
+    plt.close()
+    fig, ax = plt.subplots(1,2,figsize=(9,5), sharey=True)
+    
+    raveon = load_survey('raveon')
+    apogee = load_survey('apogee')
+    finite = [None]*2
+    mrich = [None]*2
+    
+    for i, s in enumerate([raveon, apogee]):
+        finite[i] = np.isfinite(s.data['feh'])
+        mrich[i] = s.data['feh']>-1
+        
+        plt.sca(ax[i])
+        plt.hist(s.v[:,1][s.halo & finite[i] & mrich[i]], bins=bv, normed=True, lw=2, ls='-', histtype='step', color=colors[0], label='Metal-rich halo')
+        plt.axvline(0, color='0.5', lw=1.5, zorder=0)
+        plt.axvline(np.median(s.v[:,1][s.halo & finite[i] & mrich[i]].value), lw=2, ls='--', color=colors[0])
+
+        #plt.sca(ax[1])
+        plt.hist(s.v[:,1][s.halo & finite[i] & ~mrich[i]], bins=bv, normed=True, lw=2, ls='-', histtype='step', color=colors[1], label='Metal-poor halo')
+        plt.axvline(0, color='0.5', lw=1.5, zorder=0)
+        plt.axvline(np.median(s.v[:,1][s.halo & finite[i] & ~mrich[i]].value), lw=2, ls='--', color=colors[1])
+    
+    plt.sca(ax[0])
+    plt.xlabel('$V_Y$ (km/s)')
+    plt.ylabel('Density (km/s)$^{-1}$')
+    plt.legend(frameon=True, fontsize='small', loc=2, framealpha=0.97)
+    plt.title('RAVE-on')
+
+    dks, p = scipy.stats.ks_2samp(raveon.v[:,1][raveon.halo & finite[0] & mrich[0]].value, raveon.v[:,1][raveon.halo & finite[0] & ~mrich[0]].value)
+    #plt.text(0.92,0.9, 'DKS = {:.2f}\np = {:.3f}'.format(dks, p), ha='right', va='top', transform=plt.gca().transAxes, fontsize='small')
+    plt.text(0.92,0.9, 'p = {:.2g}'.format(p), ha='right', va='top', transform=plt.gca().transAxes, fontsize='small')
+    
+    plt.sca(ax[1])
+    plt.xlabel('$V_Y$ (km/s)')
+    #plt.ylabel('Density (km/s)$^{-1}$')
+    plt.title('APOGEE')
+    
+    dks, p = scipy.stats.ks_2samp(apogee.v[:,1][apogee.halo & finite[1] & mrich[1]].value, apogee.v[:,1][apogee.halo & finite[1] & ~mrich[1]].value)
+    #plt.text(0.92,0.9, 'DKS = {:.2f}\np = {:.3f}'.format(dks, p), ha='right', va='top', transform=plt.gca().transAxes, fontsize='small')
+    plt.text(0.92,0.9, 'p = {:.2g}'.format(p), ha='right', va='top', transform=plt.gca().transAxes, fontsize='small')
+    
+    plt.tight_layout()
+    plt.savefig('../plots/vy.pdf', bbox_inches='tight')
+
+def latte_dform2_hist():
+    """Formation properties of Latte star particles"""
+    
+    latte = load_survey('lattemdif')
+    
+    plt.close()
+    fig, ax = plt.subplots(1, 2, figsize=(7,5), sharey='row', gridspec_kw = {'width_ratios':[5, 1], 'wspace': 0})
+
+    dacc = 20
+    accreted = latte.data['feh']<=-1
+    lw = 0.3
+    ms = 5
+
+    plt.sca(ax[0])
+    plt.plot(latte.data['age'][latte.disk], latte.data['dform'][latte.disk], 'o', ms=ms, c=red, mec='w', mew=lw, rasterized=True, label='Disk')
+    plt.plot(latte.data['age'][latte.halo & accreted], latte.data['dform'][latte.halo & accreted], 'o', ms=ms, c=dblue, mec='w', mew=lw, rasterized=True, label='Metal-poor halo')
+    plt.plot(latte.data['age'][latte.halo & ~accreted], latte.data['dform'][latte.halo & ~accreted], 'o', ms=ms, c=lblue, mec='w', mew=lw, rasterized=True, label='Metal-rich halo')
+
+    plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
+    plt.axhspan(5, 11, color='0.5', alpha=0.2, zorder=2)
+    plt.text(0.75,0.8, 'Accreted', transform=plt.gca().transAxes, ha='left', va='top', fontsize='medium')
+    plt.text(0.75,0.25, 'In situ', transform=plt.gca().transAxes, ha='left', va='bottom', fontsize='medium')
+    
+    plt.ylim(1e-1,500)
+    plt.xlim(13.8,0)
+    plt.gca().set_yscale('log')
+    plt.xlabel('Age (Gyr)')
+    plt.ylabel('Formation distance (kpc)')
+    plt.legend(loc=4, fontsize='small', frameon=False, handlelength=0.2)
+    
+    plt.sca(ax[1])
+    dbins = np.logspace(-1, np.log10(500), 30)
+    plt.hist(latte.data['dform'][latte.halo & accreted], bins=dbins, color=dblue, histtype='step', lw=2, orientation='horizontal')
+    plt.hist(latte.data['dform'][latte.halo & ~accreted], bins=dbins, color=lblue, histtype='step', lw=2, orientation='horizontal')
+    
+    plt.axhline(dacc, ls='-', color='k', lw=2, zorder=0)
+    plt.axhspan(5, 11, color='0.5', alpha=0.2, zorder=0)
+    plt.axis('off')
+
+    plt.tight_layout(w_pad=0)
+    plt.savefig('../plots/paper/latte_dform2.pdf', bbox_inches='tight')
 
