@@ -1993,13 +1993,14 @@ def configuration_space():
 def vy():
     """"""
     colors = ['royalblue', 'navy']
+    Nb = 10
+    bv_coarse = np.linspace(-400,400,Nb+1)
     Nb = 20
-    bv = np.linspace(-400,400,Nb+1)
-    #bx = [np.linspace(x0-3,x0+3,Nb+1) for x0 in [-8.3, 0, 0]]
-    #xlabel = ['X', 'Y', 'Z']
+    bv_fine = np.linspace(-400,400,Nb+1)
+    bv = [bv_fine, bv_coarse]
     
     plt.close()
-    fig, ax = plt.subplots(1,2,figsize=(9,5), sharey=True)
+    fig, ax = plt.subplots(1,2,figsize=(9.5,5), sharey='row')
     
     raveon = load_survey('raveon')
     apogee = load_survey('apogee')
@@ -2011,17 +2012,18 @@ def vy():
         mrich[i] = s.data['feh']>-1
         
         plt.sca(ax[i])
-        plt.hist(s.v[:,1][s.halo & finite[i] & mrich[i]], bins=bv, normed=True, lw=2, ls='-', histtype='step', color=colors[0], label='Metal-rich halo')
+        plt.hist(s.v[:,1][s.halo & finite[i] & mrich[i]], bins=bv[i], normed=True, lw=2, ls='-', histtype='step', color=colors[0], label='Metal-rich halo')
         plt.axvline(0, color='0.5', lw=1.5, zorder=0)
         plt.axvline(np.median(s.v[:,1][s.halo & finite[i] & mrich[i]].value), lw=2, ls='--', color=colors[0])
 
         #plt.sca(ax[1])
-        plt.hist(s.v[:,1][s.halo & finite[i] & ~mrich[i]], bins=bv, normed=True, lw=2, ls='-', histtype='step', color=colors[1], label='Metal-poor halo')
+        plt.hist(s.v[:,1][s.halo & finite[i] & ~mrich[i]], bins=bv[i], normed=True, lw=2, ls='-', histtype='step', color=colors[1], label='Metal-poor halo')
         plt.axvline(0, color='0.5', lw=1.5, zorder=0)
         plt.axvline(np.median(s.v[:,1][s.halo & finite[i] & ~mrich[i]].value), lw=2, ls='--', color=colors[1])
     
     plt.sca(ax[0])
     plt.xlabel('$V_Y$ (km/s)')
+    #plt.ylabel('Number')
     plt.ylabel('Density (km/s)$^{-1}$')
     plt.legend(frameon=True, fontsize='small', loc=2, framealpha=0.97)
     plt.title('RAVE-on')
