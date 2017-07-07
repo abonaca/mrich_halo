@@ -2086,3 +2086,47 @@ def latte_dform2_hist():
     plt.tight_layout(w_pad=0)
     plt.savefig('../plots/paper/latte_dform2.pdf', bbox_inches='tight')
 
+
+### MPIA galaxy theory
+def latte_alphas():
+    """"""
+    colors = [red, blue]
+    bx = np.linspace(-2.5,0.5,100)
+    by = np.linspace(-0.1,0.4,100)
+    bx2 = np.linspace(-2.5,0.5,10)
+    bx2_cen = myutils.bincen(bx2)
+    
+    plt.close()
+    fig, ax = plt.subplots(1, 3, figsize=(15,5))
+    
+    for i, survey in enumerate(['lattemdif', 'lattefid', 'lattehr']):
+        s = load_survey(survey)
+        fehacc = -1
+        accreted = s.data['feh']<=fehacc
+        categories = [s.disk, s.halo]
+        
+        plt.sca(ax[i])
+        plt.plot(-3,0, 's', ms=6, color=mpl.cm.Reds(0.5), label='Disk', mec='none')
+        plt.hist2d(s.data['feh'][s.disk], s.data['afe'][s.disk], bins=(bx,by), cmap='Reds', norm=mpl.colors.LogNorm(), rasterized=True)
+
+        plt.plot(s.data['feh'][s.halo], s.data['afe'][s.halo], 'o', color=blue, mec='none', label='Halo', ms=2, rasterized=False)
+        
+        # running median
+        rmed, be, bn = scipy.stats.binned_statistic(s.data['feh'], s.data['afe'], statistic='median', bins=bx2)
+        rstd, be, bn = scipy.stats.binned_statistic(s.data['feh'], s.data['afe'], statistic='std', bins=bx2)
+        plt.errorbar(bx2_cen, rmed, yerr=rstd, color='k', fmt='o', ms=4, label='Running median')
+        
+        plt.xlim(-2.5,0.5)
+        plt.ylim(-0.1,0.4)
+        
+        plt.xlabel('[Fe/H]')
+        plt.ylabel('[$\\alpha$/Fe]')
+        plt.title(survey, fontsize='medium')
+        
+        if i==0:
+            plt.legend(loc=3, frameon=False, numpoints=1, handlelength=0.2)
+    
+    plt.tight_layout()
+    plt.savefig('../plots/latte_afeh_comp.pdf')
+    
+    
